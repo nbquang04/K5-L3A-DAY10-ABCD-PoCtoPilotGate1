@@ -2,9 +2,9 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm (`TenNhom`, không dấu, không khoảng trắng):
-- Lớp: `L3A` / `L3B`
-- Repo của bàn: `K5-<L3A|L3B>-DAY10-<TenNhom>-PoCtoPilotGate1`
+- Tên nhóm (`TenNhom`, không dấu, không khoảng trắng): ABCD
+- Lớp: `L3A`
+- Repo của bàn: `K5-L3A-DAY10-ABCD-PoCtoPilotGate1` (đối chiếu remote `origin`)
 - Thẻ sự cố đã bốc (S1–S8):
 
 ## Thành viên
@@ -109,6 +109,24 @@ Ghi `members` trong `submission/submission.json` theo dạng `"HoVaTen-MSSV"`, k
 7. Sau demo, trả các giá trị thử về bản v2 nếu có thay đổi; Duẩn chạy lại grade và gom bài, Dũng push bản cuối. Mỗi thành viên tự nộp link repo trên LMS.
 
 ## Cá nhân
+
+## NguyenBaQuang-2A202603555
+
+### Phần việc phụ trách
+
+Vận hành và pháp lý: Phiếu A câu 1.2, 1.4; Phiếu B B4–B5, B7.5–B7.6; config vận hành/pháp lý và metadata bài nộp. Vòng 2 phụ trách C3–C4, C10–C11 khi có thẻ.
+
+### Đóng góp cụ thể
+
+Đã dùng trợ lý AI để đọc yêu cầu, đối chiếu dữ liệu mock và code; chuẩn bị mục tiêu của Oanh/Hạnh, thiết kế telemetry PII, HAZOP tool gửi hãng, checklist chín nhóm có PIC và dự thảo runbook. Đã điền thông tin nhóm/thành viên theo TEAM và remote origin vào metadata. Các đề xuất vận hành chưa được coi là quyết định của cả nhóm; chưa áp dụng config, chưa chạy đánh giá, chưa làm phần sự cố khi chưa có thẻ.
+
+### Bằng chứng
+
+`templates/form-a-criteria.md`: A1 câu 1.2 và A2 cột Telemetry. `templates/form-b-evaluation-gates.md`: B4, B5 và dự thảo ở B7.5. `submission/submission.json`: team và bốn members. Nguồn: `data/world.json` (staff, ops_limits, ops_facts, policies), đọc tĩnh `lab10/agent.py`, `lab10/tools.py`. Chưa có mã chạy hoặc commit chứng minh kết quả đánh giá.
+
+### Exit ticket
+
+Điều rút ra khi chuẩn bị: lọc tên trường cấp ngoài không đủ nếu PII nằm trong đối tượng lồng hoặc ghi chú tự do; monitor sau gửi chỉ phát hiện, không thu hồi được dữ liệu. Điều chưa chắc: một người duyệt 6 ca/giờ có đủ ở giờ dồn ca hay không; cần report và kiểm tra chi phí/ROI sau khi tiêu chí đã ký. Cần tự rà lại và bổ sung sau demo.
 
 Mỗi thành viên tự viết một mục bên dưới (chép mẫu, đổi tiêu đề thành họ tên không dấu và MSSV, ví dụ `## NguyenVanAn-20241234`).
 
