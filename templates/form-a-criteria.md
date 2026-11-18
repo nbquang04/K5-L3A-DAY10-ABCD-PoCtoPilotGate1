@@ -81,9 +81,9 @@ _(Ở vòng 2, Phiếu C mục C8 dùng lại đúng bảng ba ô này cho chỉ
 
 ### Câu 1.5 · Chọn MỘT kết luận và giải thích một câu
 
-Số minh hoạ trong đề (không phải số của bàn). Khoanh: **(a) · (b) · (c) · (d)**
+Số minh hoạ trong đề (không phải số của bàn). Khoanh: **(a) · (b) · (c) · (d)** → **(b)**
 
-Giải thích một câu: …
+Giải thích một câu: Chưa đủ căn cứ kết luận Y tốt hơn X vì chênh lệch 1/50 lần chạy nằm trong khoảng tin cậy 95% của X ([0,9400; 1,0]).
 
 ---
 
