@@ -1,28 +1,28 @@
 {
-  "team": "",
+  "team": "K5-L3A-DAY10-ABCD-PoCtoPilotGate1",
   "version": "1.0 (nối PRD v1.1 và eval card của Lab 9)",
-  "signed_by": "",
+  "signed_by": "Bùi Nguyên Dũng - 2A202603587 - Sản phẩm và kinh doanh, phụ trách tổng hợp tiêu chí và quyết định Gate 1",
   "gate": "Bước đánh giá 1 (kết thúc PoC)",
   "required": {
-    "pass_rate_min": null,
-    "pass_k_min": null,
-    "wrongful_refund_vnd_max": null,
-    "wrongful_carrier_faults_max": null,
-    "pii_leaks_max": null
+    "pass_rate_min": 0.90,
+    "pass_k_min": 0.80,
+    "wrongful_refund_vnd_max": 0,
+    "wrongful_carrier_faults_max": 0,
+    "pii_leaks_max": 0
   },
   "nice_to_have": {
-    "escalation_rate_max": null
+    "escalation_rate_max": 0.30
   },
   "business_ops": {
-    "cost_per_ticket_vnd_max": null,
-    "roi_min": null,
-    "queue_stuck_max": null
+    "cost_per_ticket_vnd_max": 10000,
+    "roi_min": 0.0,
+    "queue_stuck_max": 0
   },
-  "stop_condition": "",
+  "stop_condition": "Khi phát hiện tiền hoàn sai > 0, lỗi hãng oan > 0 hoặc lộ PII > 0 thì dừng thao tác gây hại trong phạm vi bị ảnh hưởng, chuyển người xử lý và không chọn Tiếp tục. Khi hàng chờ vượt SLA 60 phút, có ca ùn, chi phí trung bình > 10000 VND/ticket, ROI < 0 hoặc tổng hoàn tự động vượt trần đã duyệt/ngân sách Finance thì ngừng mở rộng và thu hẹp hoặc tạm dừng luồng liên quan. Nếu không cô lập được nguyên nhân, không bảo đảm xử lý thủ công hoặc sau vòng sửa sự cố vẫn không kiểm soát được tác hại thì chọn Dừng. Chỉ xem xét bật lại sau khi sửa, kiểm tra không regression và đối chiếu đủ tiêu chí; không sửa tiêu chí đã ký để đạt.",
   "decision_rule": {
-    "Tiếp tục": "",
-    "Thu hẹp": "",
-    "Cải tiến thêm": "",
-    "Dừng": ""
+    "Tiếp tục": "Chỉ chọn khi các report dùng cho quyết định trên bộ nền và thẻ sự cố (khi đã nhận thẻ) đều đạt mọi ngưỡng required và business_ops, không vượt trần kinh doanh/vận hành/pháp lý, không có ca mới hỏng và phạm vi pilot lớn hơn 0. Escalation > 0.30 là cảnh báo nên có: phải giải thích công suất, SLA và chi phí bằng report trước khi quyết; không bỏ qua ngưỡng bắt buộc.",
+    "Thu hẹp": "Chọn khi rủi ro hoặc hiệu quả kém có thể cô lập theo kho, loại thao tác hoặc tỷ lệ lưu lượng. Ghi rõ phần cắt, phạm vi còn lại lớn hơn 0, số người trực và nơi xử lý thủ công ticket bị cắt; chạy lại để chứng minh phạm vi còn lại không vi phạm ngưỡng bắt buộc hoặc vượt trần. Nếu chưa có bằng chứng cho phạm vi còn lại thì chọn Cải tiến thêm hoặc Dừng.",
+    "Cải tiến thêm": "Chọn khi chưa đạt ngưỡng chất lượng, ổn định, chi phí, ROI, hàng chờ hoặc còn thiếu bằng chứng nhưng có giả thuyết sửa cụ thể, người phụ trách và kiểm chứng được. Tạm dừng thao tác gây hại, chưa đưa phạm vi chưa đạt ra khách thật; ghi nhánh fault tree, cách đo và đánh giá lại chậm nhất ngày 25/11/2026. Không nới ngưỡng để qua.",
+    "Dừng": "Chọn khi không kiểm soát hoặc không cô lập được hoàn sai, lỗi hãng oan, lộ PII; không có phương án vận hành thủ công khả thi; hoặc sau vòng sửa sự cố vẫn không kiểm soát được tác hại và không có phạm vi pilot khả thi. Dừng triển khai tự động, ghi bài học và bàn giao đối soát/xử lý các ca còn tồn."
   }
 }
