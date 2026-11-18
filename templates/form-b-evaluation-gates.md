@@ -113,34 +113,25 @@ tín hiệu: đếm sự kiện `model_override` mỗi ngày.
 
 ## B3 · Câu 2.3 · Bản đồ dữ liệu của trợ lý và ví dụ drift
 
-**Cách làm:** đi từ người dùng và việc họ cần làm, tới đầu ra của hệ thống, rồi mới hỏi hệ thống cần dữ liệu
-gì, định dạng ra sao, và **thế giới thật làm dữ liệu đó lệch đi thế nào**; cuối cùng tóm lại trong vài câu.
-Trợ lý LogiX không huấn luyện gì trong lab này, nên ta hỏi về "dữ liệu trợ lý đọc lúc chạy / trường then chốt / nguồn sự thật".
-Gợi ý: mở `data/world.json` phần `policies`, `orders[].parcels`, `ops_limits`, `ops_facts`.
+**Cách làm:** đi từ người dùng và việc họ cần làm, tới đầu ra của hệ thống, rồi mới hỏi hệ thống cần dữ liệu gì, định dạng ra sao, và **thế giới thật làm dữ liệu đó lệch đi thế nào**; cuối cùng tóm lại trong vài câu. Trợ lý LogiX không huấn luyện gì trong lab này, nên ta hỏi về "dữ liệu trợ lý đọc lúc chạy / trường then chốt / nguồn sự thật". Gợi ý: mở `data/world.json` phần `policies`, `orders[].parcels`, `ops_limits`, `ops_facts`.
 
 | Mục | Điền cho trợ lý hoàn tiền |
-|---|---|
-| Người dùng | |
-| Việc người dùng cần làm xong | |
-| Đầu ra của hệ thống (kể cả các lệnh ghi) | |
-| Dữ liệu trợ lý đọc lúc chạy (bảng nào trong `data/world.json`) | |
-| Trường then chốt quyết định tiền và lỗi hãng | |
-| Với mỗi trường then chốt: **nguồn sự thật** hay **bản sao** (ai cập nhật, khi nào)? | |
-| Định dạng cần để ý (ngày, trường được phép trống, đơn nhiều kiện) | |
-| Thế giới thật làm dữ liệu lệch ở đâu (theo mùa, đổi chính sách, giờ cao điểm, người nhập tay)? | |
-| Câu người ngoài sẽ hỏi về nguồn dữ liệu ("sao hệ thống biết đơn trễ mấy ngày?") | |
+| :--- | :--- |
+| Người dùng | Khách hàng yêu cầu hoàn tiền do giao hàng trễ; nhân viên CSKH và người duyệt tham gia khi cần xử lý thủ công. |
+| Việc người dùng cần làm xong | Xác minh đơn giao trễ, xác định quyền lợi hoàn tiền theo chính sách có hiệu lực và nhận kết quả xử lý chính xác, có giải thích. |
+| Đầu ra của hệ thống (kể cả các lệnh ghi) | Quyết định hoàn tiền, từ chối hoặc chuyển người duyệt; số tiền hoàn; ghi giao dịch vào sổ cái; ghi lỗi hãng và gửi thông báo cho hãng khi đủ điều kiện. |
+| Dữ liệu trợ lý đọc lúc chạy (bảng nào trong `data/world.json`) | `orders`, `orders[].parcels`, `policies`, `approvals`, `ops_limits`, `ledger_seed`; `ops_facts` phục vụ đánh giá chi phí và vận hành. |
+| Trường then chốt quyết định tiền và lỗi hãng | `promised_date`, `delivered_date`, `delay_cause`, `shipping_fee_vnd`, `goods_value_vnd`, `refund_status`, `effective_from`, `effective_to`, `late.min_days_fee`, `late.min_days_bonus`, `auto_limit_vnd`, `fault_causes`. |
+| Với mỗi trường then chốt: **nguồn sự thật** hay **bản sao** (ai cập nhật, khi nào)? | `orders[].parcels` là dữ liệu vận hành để kiểm tra ngày giao và nguyên nhân trễ; `policies` là nguồn quy định hoàn tiền có hiệu lực; `approvals` dùng để xác minh phê duyệt; `ledger_seed` chứa dữ liệu sổ cái ban đầu. Thông tin khách tự khai và kết quả model suy luận chỉ là dữ liệu tham khảo, không được tự ý thay thế các bản ghi có thẩm quyền. Trước pilot, cần xác định rõ ai cập nhật từng nguồn và tần suất đồng bộ để tránh quyết định dựa trên dữ liệu cũ hoặc sai. |
+| Định dạng cần để ý (ngày, trường được phép trống, đơn nhiều kiện) | Ngày theo `YYYY-MM-DD`; `effective_to` có thể bằng `null`; `parcels` là danh sách nên một đơn có thể có nhiều kiện. Cần kiểm tra dữ liệu ngày giao thiếu, xác định đúng kiện bị trễ và chọn đúng phiên bản chính sách theo thời điểm áp dụng. |
+| Thế giới thật làm dữ liệu lệch ở đâu (theo mùa, đổi chính sách, giờ cao điểm, người nhập tay)? | Chính sách thay đổi từ `REFUND-v3` sang `REFUND-v4` ngày 01/12/2026; dữ liệu tracking có thể cập nhật muộn hoặc nhập bù; lượng ticket tăng vào mùa sale, mưa bão; các depot có thể đồng bộ không cùng thời điểm. |
+| Câu người ngoài sẽ hỏi về nguồn dữ liệu ("sao hệ thống biết đơn trễ mấy ngày?") | “Trợ lý dựa vào ngày hẹn giao, ngày giao thực tế và nguyên nhân trễ từ hệ thống nào? Vì sao áp dụng mức hoàn tiền và phiên bản chính sách đó?” |
 
-**Tóm lại (điền vào chỗ trống):**
-Trợ lý dùng `__________`, `__________`, `__________` để giúp `__________` làm được `__________`.
-Trường mà nếu sai thì tiền hoặc lỗi hãng sai theo: `__________`, `__________`.
-Chúng tôi biết thế giới thật sẽ làm dữ liệu lệch ở: `__________`. Dấu hiệu nhìn thấy sớm nhất: `__________`.
+**Tóm lại (điền vào chỗ trống):** Trợ lý dùng `orders[].parcels`, `policies`, `ops_limits` để giúp `khách hàng` làm được `xác minh quyền lợi và nhận quyết định hoàn tiền đúng chính sách`. Trường mà nếu sai thì tiền hoặc lỗi hãng sai theo: `delivered_date`, `delay_cause`. Chúng tôi biết thế giới thật sẽ làm dữ liệu lệch ở: `thay đổi chính sách và cập nhật tracking chậm`. Dấu hiệu nhìn thấy sớm nhất: `quyết định dùng sai phiên bản chính sách hoặc số ngày trễ không khớp dữ liệu vận hành`.
 
-**Ví dụ drift trong 3 tháng tới** (lấy từ dòng "thế giới thật làm dữ liệu lệch"): cái gì đổi `____` · đổi ngày nào `____` ·
-trường nào cho thấy `____` · con số nào của Bản tiêu chí bị ảnh hưởng `____`.
-Đây là đầu vào đổi hay quan hệ vào–ra đổi? Chỉ số nào sẽ phát hiện? `__________`
+**Ví dụ drift trong 3 tháng tới** (lấy từ dòng "thế giới thật làm dữ liệu lệch"): cái gì đổi `REFUND-v3 sang REFUND-v4` · đổi ngày nào `01/12/2026` · trường nào cho thấy `effective_from, effective_to, late.min_days_fee, late.min_days_bonus, auto_limit_vnd, fault_causes` · con số nào của Bản tiêu chí bị ảnh hưởng `pass_rate_min, pass_k_min, wrongful_refund_vnd_max, wrongful_carrier_faults_max`. Đây là đầu vào đổi hay quan hệ vào–ra đổi? Chỉ số nào sẽ phát hiện? `Quan hệ đầu vào–đầu ra đổi (concept drift); phát hiện qua tỷ lệ dùng sai phiên bản chính sách, pass_rate, pass_k, tổng tiền hoàn sai và số lỗi hãng oan.`
 
-**Ví dụ một dòng (đừng chép):** trường then chốt `parcels[].delivered_date` · bản ghi do máy quét ở điểm phát tạo ra, là nguồn
-sự thật về ngày giao · lệch khi điểm phát quét sót hoặc nhập bù bằng tay.
+**Ví dụ một dòng (đừng chép):** trường then chốt `parcels[].delivered_date` · bản ghi do máy quét ở điểm phát tạo ra, là nguồn sự thật về ngày giao · lệch khi điểm phát quét sót hoặc nhập bù bằng tay.
 
 ---
 
@@ -233,19 +224,16 @@ Trạng thái: **Xong** (có bằng chứng) · **Chưa** · **Không áp dụng
 
 ## B6 · Câu 2.5 · Pre-mortem bốn lăng kính → cổng phòng ngừa (khoảng 8–10 phút, cả bàn)
 
-*Mọi bàn làm pre-mortem ở vòng 1, TRƯỚC khi biết sự cố, để chọn 2–3 cổng phòng ngừa sẽ dựng. Ở vòng 2 bàn mở lại phần này ở
-Phiếu C mục C1 (bút khác màu).*
+*Mọi bàn làm pre-mortem ở vòng 1, TRƯỚC khi biết sự cố, để chọn 2–3 cổng phòng ngừa sẽ dựng. Ở vòng 2 bàn mở lại phần này ở Phiếu C mục C1 (bút khác màu).*
 
-**Khung tư duy.** Hỏi "có rủi ro gì không" thì ai cũng dè dặt. Nói "nó đã hỏng rồi, vì sao" thì mọi người được phép nói ra
-điều mình vẫn lo. Làm im lặng trước, đọc sau, để ý kiến của người nói to không lấn át.
+**Khung tư duy.** Hỏi "có rủi ro gì không" thì ai cũng dè dặt. Nói "nó đã hỏng rồi, vì sao" thì mọi người được phép nói ra điều mình vẫn lo. Làm im lặng trước, đọc sau, để ý kiến của người nói to không lấn át.
 
 **Đề bài (đọc to):** *"Ba tháng sau pilot, LogiX phải tắt trợ lý hoàn tiền ở cả hai depot. Chuyện gì đã xảy ra?"*
 
 1. **2 phút, im lặng:** mỗi người viết 2 lý do, mỗi lý do một dòng.
 2. **2 phút:** đọc vòng tròn, mỗi lượt một lý do, không bình luận. Gộp lý do trùng.
 3. **2 phút:** xếp từng lý do vào một **lăng kính**. Lăng kính nào còn trống thì cả bàn viết thêm ít nhất một lý do cho nó.
-4. **2 phút:** chọn 2–3 lý do sẽ biến thành **cổng phòng ngừa** ngay hôm nay (code trong `guards.py` hoặc con số trong
-   `config/operating_gates.json`). Lý do còn lại → Risk register.
+4. **2 phút:** chọn 2–3 lý do sẽ biến thành **cổng phòng ngừa** ngay hôm nay (code trong `guards.py` hoặc con số trong `config/operating_gates.json`). Lý do còn lại → Risk register.
 
 Bốn lăng kính (bắt buộc đủ cả bốn; dự án AI hay chết ở ba lăng kính sau hơn là ở lăng kính đầu):
 
@@ -258,12 +246,11 @@ Bốn lăng kính (bắt buộc đủ cả bốn; dự án AI hay chết ở ba 
 
 | Lý do thất bại (viết ở thì quá khứ) | Lăng kính | Kiểm được hôm nay? (trace / data / config nào) | Thành cổng phòng ngừa nào (code hay config) / hay vào risk register |
 |---|---|---|---|
-| | Kỹ thuật | | |
-| | Kinh doanh | | |
-| | Con người và vận hành | | |
-| | Pháp lý | | |
-| | | | |
-
+| Trợ lý đã tin số ngày trễ do khách tự khai thay vì đối chiếu tracking, khiến hoàn tiền sai và quy lỗi oan cho hãng vận chuyển. | Kỹ thuật | `T-002@55`; đối chiếu trace với `orders[].parcels`, `promised_date`, `delivered_date`, `delay_cause` và `policies`. | **Cổng 1:** `write_gate(ctx, action)` trong `lab10/guards.py` kiểm tra số tiền hoàn và nguyên nhân lỗi hãng với dữ liệu có thẩm quyền trước lệnh ghi. |
+| Hệ thống đã tự động hoàn tiền vượt ngân sách Finance, đồng thời chi phí xử lý tăng làm hiệu quả kinh doanh thấp hơn dự kiến. | Kinh doanh | `data/world.json` → `ops_limits`, `ops_facts`; báo cáo chi phí/ticket, ROI và tổng tiền hoàn tự động. | **Cổng 2:** `business.daily_refund_cap_vnd` trong `config/operating_gates.json` đặt theo trần 2.000.000 VND/ngày; kiểm soát chi phí/ticket và ROI bằng các ngưỡng đã thống nhất. |
+| Một người duyệt đã không xử lý kịp lượng ticket chuyển lên trong giờ cao điểm, khiến hàng chờ tăng và vi phạm SLA 60 phút. | Con người và vận hành | `ops_facts`: 1 người duyệt, 6 ca/giờ; `ops_limits`: SLA tiếp nhận 60 phút; đối chiếu số ca ùn và thời gian chờ trong report. | **Cổng 3:** thiết lập giới hạn hàng chờ, công suất reviewer và điều kiện thu hẹp `business.pilot_scope` trong `config/operating_gates.json`. |
+| Thông tin cá nhân của người nhận hàng đã bị đưa vào thông báo gửi hãng hoặc hãng bị ghi lỗi khi chưa có căn cứ hợp lệ, dẫn đến khiếu nại từ bên thứ ba. | Pháp lý | Đối chiếu trace của `notify_carrier`, `file_carrier_fault`; `orders[].recipient` và `policies[].carrier_notice_fields`. | Đưa vào **Risk register** để theo dõi; đề xuất kiểm tra trường dữ liệu được phép gửi và căn cứ ghi lỗi hãng trước khi mở rộng pilot. |
+| Sau khi chuyển sang `REFUND-v4`, trợ lý đã tiếp tục áp dụng giới hạn tự động hoặc quy tắc quy lỗi hãng của `REFUND-v3`, dẫn đến quyết định không còn hợp lệ. | Kỹ thuật | `policies`: v4 hiệu lực từ 01/12/2026; `auto_limit_vnd` giảm từ 200.000 xuống 100.000; `FORCE_MAJEURE` không còn trong `fault_causes`. | Đưa vào **Risk register**; bổ sung kiểm tra phiên bản chính sách có hiệu lực trước khi cho phép lệnh ghi. |
 ---
 
 <a id="b7"></a>
@@ -315,10 +302,10 @@ Mỗi con số kèm một câu lý do, lấy từ `data/world.json` → `ops_lim
 
 | Khoá | Giá trị bàn đặt | Lý do (một câu, có số) |
 |---|---|---|
-| `business.daily_refund_cap_vnd` | | |
-| `business.cost_budget_per_ticket_vnd` | | |
-| `business.pilot_scope` (all / warehouse / percent) | | |
-| `business.roi_min` | | |
+| `business.daily_refund_cap_vnd` | 2000000 |Theo ops_limits, tổng hoàn tiền tự động mỗi ngày không được vượt 2.000.000 VND |
+| `business.cost_budget_per_ticket_vnd` |10000 |Theo ops_facts, xử lý thủ công tốn 10.000 VND/ticket; nếu chỉ số tính tổng chi phí vận hành thì đây là mức trần đề xuất để so sánh với làm tay. |
+| `business.pilot_scope` (all / warehouse / percent) |warehouse |Giới hạn pilot ở 1 kho nhằm kiểm soát rủi ro khi mặc định chỉ có 1 người duyệt với công suất 6 ca/giờ. |
+| `business.roi_min` |0.0 |Theo ops_facts, xử lý thủ công tốn 10.000 VND/ticket; nhóm đề xuất ROI tối thiểu 0% để không kém phương án thủ công về hiệu quả chi phí. |
 
 ### B7.5 · Câu 2.10 · Cổng con người, vận hành, pháp lý + Runbook phần 1–3
 
