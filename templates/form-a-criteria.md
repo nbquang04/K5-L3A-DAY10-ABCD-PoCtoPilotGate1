@@ -1,11 +1,12 @@
 # Phiếu A · Tiêu chí và cách đo · Khối 1 (phút 15–65)
 
-**Bàn:** ______ · **Người cầm bút chính:** vai Sản phẩm và kinh doanh (câu 1.3: Kỹ sư cổng; câu 1.2, 1.4: Vận hành và pháp lý)
+**Bàn:** **\_\_** · **Người cầm bút chính:** vai Sản phẩm và kinh doanh (câu 1.3: Kỹ sư cổng; câu 1.2, 1.4: Vận hành và pháp lý)
 
 Điền phiếu này **trước khi chạy trợ lý lần nào**. Viết xong thì chép ngưỡng sang `config/acceptance_criteria.json`, ký ở phút 60–65,
 rồi mới chạy đánh giá. Khối 1 không sửa code.
 
 **Mục lục**
+
 - [A1 · Mục tiêu (câu 1.1, 1.2) · phút 15–20](#a1)
 - [A2 · Thước đo → Dữ liệu → Cách tính (câu 1.3, 1.4) · phút 20–35](#a2)
 - [A3 · Đọc một kết quả có khoảng tin cậy (câu 1.5) · phút 35–40](#a3)
@@ -37,6 +38,7 @@ rồi mới chạy đánh giá. Khối 1 không sửa code.
 DỮ LIỆU nào, ở đâu, ai gán nhãn; TÍNH thế nào để hai người làm độc lập ra cùng một số. Thiếu ô thứ ba thì chưa phải thước đo.
 
 **Câu hỏi dẫn dắt**
+
 - Thước đo này nói về MỘT bước của agent hay cả luồng? Nếu cả luồng hỏng, nó có chỉ ra bước nào hỏng không?
 - Dữ liệu đã có sẵn (trace, sổ cái) hay phải thu thêm? Nhãn đúng/sai đến từ đâu?
 - Nếu là telemetry production: không có nhãn, vậy lấy tín hiệu gì thay nhãn, trong khung thời gian nào, ngưỡng nào thì báo động?
@@ -46,14 +48,14 @@ DỮ LIỆU nào, ở đâu, ai gán nhãn; TÍNH thế nào để hai người 
 Câu 1.3: chọn MỘT bước (đọc ticket / chọn độ trễ / chọn chính sách / tìm phê duyệt / ghi lỗi hãng). Câu 1.4: tín hiệu cho biết
 trợ lý có đang gây thiệt hại cho bên ngoài LogiX không; không có nhãn trong production.
 
-| | Offline, cho MỘT bước (câu 1.3) | Telemetry production (câu 1.4) |
-|---|---|---|
-| **Bước / hành vi được đo** | | |
-| **Thước đo** (một câu, có đơn vị) | | |
-| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn) | | |
-| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | | |
-| **Khung thời gian / ngưỡng báo động** | (không áp dụng) | |
-| **Điểm mù** (thước đo này KHÔNG thấy gì) | | |
+|                                                                | Offline, cho MỘT bước (câu 1.3)                                                                                                                                                                                                              | Telemetry production (câu 1.4) |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| **Bước / hành vi được đo**                                     | Ghi lỗi hãng cho đúng kiện và đúng nguyên nhân dựa trên tracking                                                                                                                                                                             |                                |
+| **Thước đo** (một câu, có đơn vị)                              | Tỉ lệ bản ghi lỗi hãng sai kiện, hãng, số ngày trễ hoặc nguyên nhân trên tổng số bản ghi lỗi hãng (%)                                                                                                                                        |                                |
+| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn)                | Trace và `fault_rows` của 22 ticket × 5 seed trong `runs/<mã>/traces/`, đối chiếu độc lập với `orders[].parcels` và chính sách có hiệu lực trong `data/world.json`; người đánh giá xác định nhãn từ nguồn này, không dùng lời khách làm nhãn |                                |
+| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | Số bản ghi có parcel/carrier/delay/cause không khớp nguồn sự thật chia tổng số bản ghi `file_carrier_fault` × 100%; ca không có bản ghi không vào mẫu số, nhưng phải báo riêng số lần không ghi lỗi                                          |                                |
+| **Khung thời gian / ngưỡng báo động**                          | (không áp dụng)                                                                                                                                                                                                                              |                                |
+| **Điểm mù** (thước đo này KHÔNG thấy gì)                       | Không phát hiện trường hợp tracking hoặc chính sách nguồn đã sai; cũng không thấy ca đủ căn cứ nhưng trợ lý bỏ sót không ghi lỗi                                                                                                             |                                |
 
 **Ví dụ mẫu (bước "chọn độ trễ" của agent, đừng chép):**
 Thước đo: tỉ lệ lần chạy mà độ trễ agent dùng để tính tiền khác độ trễ theo tracking DB. Dữ liệu: sự kiện `proposal.delay_days_used`
@@ -61,7 +63,7 @@ và `tracking.db_delay_days` trong `runs/<mã lần chạy>/traces/`, 22 ticket 
 nhau chia cho số lần chạy có sự kiện `proposal`; lần chạy không tới bước `proposal` bị loại khỏi mẫu số và đếm riêng.
 Điểm mù: không thấy trường hợp chính tracking DB sai.
 
-*(Ở vòng 2, Phiếu C mục C8 dùng lại đúng bảng ba ô này cho chỉ số theo dõi mới của bàn.)*
+_(Ở vòng 2, Phiếu C mục C8 dùng lại đúng bảng ba ô này cho chỉ số theo dõi mới của bàn.)_
 
 ---
 
@@ -132,10 +134,10 @@ python3 -m lab10.criteria sign
 git add config/acceptance_criteria.json config/acceptance_criteria.lock && git commit -m 'Sign acceptance criteria' && git push -u origin main
 ```
 
-| Mục | Điền |
-|---|---|
-| Đã ký lúc (giờ máy in hoặc `signed_at` trong `config/acceptance_criteria.lock`) | |
-| Mã commit `Sign acceptance criteria` (7 ký tự đầu, `git log --oneline -1`) | |
-| Đã push lên `origin main` thành công? | có / chưa |
+| Mục                                                                             | Điền      |
+| ------------------------------------------------------------------------------- | --------- |
+| Đã ký lúc (giờ máy in hoặc `signed_at` trong `config/acceptance_criteria.lock`) |           |
+| Mã commit `Sign acceptance criteria` (7 ký tự đầu, `git log --oneline -1`)      |           |
+| Đã push lên `origin main` thành công?                                           | có / chưa |
 
 Sau bước này **không sửa** `config/acceptance_criteria.json`, kể cả mở rồi lưu lại bằng trình soạn thảo tự định dạng.

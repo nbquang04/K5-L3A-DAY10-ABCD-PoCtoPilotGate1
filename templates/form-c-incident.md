@@ -67,6 +67,8 @@ python3 -m lab10.grade --incident Sx
 
 ## C2 · Câu 3.1 · Bảng soát lỗi của thẻ
 
+> Chưa thể hoàn thiện mục này: workspace hiện chỉ có `incidents/README.md`, chưa có thẻ `Sx` hoặc ticket sự cố; cần điền sau khi gói đúng thẻ được kéo về.
+
 Dò ít nhất 2 ticket hỏng theo kiểu KHÁC nhau:
 
 ```bash
@@ -304,6 +306,8 @@ vì cổng ghi không đọc ticket; còn hở nếu chính tracking DB sai.
 <a id="c7"></a>
 
 ## C7 · Câu 3.5 · Bảng sửa: nguyên nhân → chỗ sửa → giảm hay ngăn
+
+> Chưa thể hoàn thiện mục này: chưa có thẻ `Sx`, fault tree C6 hoặc mã lần chạy `grade --incident`; không tự suy diễn nguyên nhân hay kết quả incident.
 
 Sửa NGOÀI model, đúng chỗ cho từng nguyên nhân. Code: `lab10/guards.py` (`pre_guard`, `write_gate`). Con số và quy trình:
 `config/operating_gates.json` (phạm vi, người trực, trần, ngân sách, kiểm mẫu, ghi chú giải thích, cổng pháp lý). Rồi chạy:

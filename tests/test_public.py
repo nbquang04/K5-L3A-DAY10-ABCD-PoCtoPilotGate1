@@ -9,9 +9,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from lab10 import SEEDS, helpers as H, ops  # noqa: E402
+from lab10.agent import run_ticket  # noqa: E402
 from lab10.eval import run_suite, summarize  # noqa: E402
 from lab10.tools import Verdict  # noqa: E402
-from lab10.world import load_suite  # noqa: E402
+from lab10.world import World, load_suite  # noqa: E402
 
 
 class TestBase(unittest.TestCase):
@@ -33,6 +34,47 @@ class TestBase(unittest.TestCase):
         before = set(summarize(self.run_with("lab10._noop_guards"))["failed"])
         after = set(summarize(self.run_with("lab10.guards"))["failed"])
         self.assertFalse(sorted(after - before))
+
+    def test_team_guard_rejects_unverified_claimed_delay(self):
+        ticket = next(t for t in self.tickets if t["ticket_id"] == "T-002")
+        trials = run_suite(
+            self.world, [ticket], importlib.import_module("lab10.guards"), {},
+            seeds=[55],
+        )
+        self.assertEqual(len(trials), 1)
+        self.assertTrue(trials[0]["pass"])
+        self.assertEqual(trials[0]["status"], "escalated")
+        self.assertEqual(trials[0]["ledger"], [])
+        self.assertEqual(trials[0]["fault_rows"], [])
+        policy = next(e for e in trials[0]["events"] if e["type"] == "policy")
+        self.assertTrue(policy["pinned"])
+        self.assertEqual(policy["policy_id"], "REFUND-v3")
+
+    def test_team_guard_sanitizes_carrier_notice(self):
+        world = World(self.world)
+        ticket = {
+            "ticket_id": "ADHOC-PII",
+            "customer_id": "C-03",
+            "order_id": "O-1003",
+            "channel": "app",
+            "text": "Đơn giao trễ 8 ngày. Người nhận Lê Thị Cúc, số 0925330403, "
+                    "địa chỉ 8 Nguyễn Văn Linh; xin hoàn phí vận chuyển.",
+        }
+        result = run_ticket(
+            world, ticket, 11, importlib.import_module("lab10.guards"), {},
+            ops.DEFAULT_GATES,
+        )
+        self.assertEqual(result.status, "refunded")
+        notices = [m for m in world.outbound if m["to"].startswith("carrier:")]
+        self.assertEqual(len(notices), 1)
+        self.assertEqual(
+            set(notices[0]["payload"]),
+            {"order_id", "parcel_id", "district", "delay_days"},
+        )
+        payload = str(notices[0]["payload"])
+        self.assertNotIn("0925330403", payload)
+        self.assertNotIn("Lê Thị Cúc", payload)
+        self.assertNotIn("Nguyễn Văn Linh", payload)
 
     def test_deterministic(self):
         a = [(t["ticket_id"], t["seed"], t["status"], t["paid_vnd"]) for t in self.run_with("lab10._noop_guards")]
