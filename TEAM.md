@@ -16,7 +16,7 @@ Họ tên đầy đủ và MSSV của **mọi** thành viên; thêm dòng nếu 
 |   1 | Hoàng Văn Bảo   | 2A202603549 | Kỹ sư cổng — guard và kiểm thử hành vi |             |
 |   2 | Đỗ Đức Duẩn     | 2A202603590 | Kỹ sư cổng — đánh giá và giám sát      |             |
 |   3 | Bùi Nguyên Dũng | 2A202603587 | Sản phẩm và kinh doanh                 |             |
-|   4 | Nguyễn Bá Quảng | 2A202603555 | Vận hành và pháp lý; tổng hợp bài nộp  |             |
+|   4 | Nguyễn Bá Quảng | 2A202603555 | Vận hành và pháp lý; tổng hợp bài nộp  |        x     |
 
 Ghi `members` trong `submission/submission.json` theo dạng `"HoVaTen-MSSV"`, khớp bảng trên.
 
