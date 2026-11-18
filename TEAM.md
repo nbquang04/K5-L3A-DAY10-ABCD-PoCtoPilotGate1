@@ -143,16 +143,15 @@ Kỹ sư cổng — guard và kiểm thử hành vi; `lab10/guards.py`; Phiếu 
 ### Đóng góp cụ thể
 
 - Thêm guard ghim policy theo ngày hiệu lực; đối chiếu hoàn tiền với tracking, policy và phê duyệt; xác minh parcel/hãng/ngày trễ trước khi ghi lỗi hãng; lọc payload gửi hãng theo allowlist.
-- Thêm regression test cho `T-002@55`, kiểm tra không hồi quy bộ nền và kiểm tra loại PII khỏi thông báo hãng.
+- Bổ sung guard S1: không suy diễn tracking thiếu/mâu thuẫn thành bằng chứng khi giao nhận chưa được xác nhận; vẫn giữ xử lý ca `IN_TRANSIT` hợp lệ.
 - Điền đề xuất metric offline A2, phân tích trace B2, thiết kế cổng và hai ticket hành vi B7.1–B7.3.
-- C2 và C7 còn chờ gói incident đúng thẻ; không ghi nguyên nhân hoặc kết quả chạy chưa có.
+- Điền C2 và C7 theo gói incident S1; mã lần chạy và kết quả đánh giá vẫn chờ Duẩn cung cấp.
 
 ### Bằng chứng
 
-- `python -m unittest discover -s tests -v`: 15 test đạt.
+- `python -m unittest discover -s tests -v`: 15 test công khai đạt sau khi thêm guard S1; các ca `T-014@*` vẫn đạt.
 - Trace `T-002@55` trong test: không hoàn tiền, không ghi lỗi hãng; ticket chuyển người.
-- Hai trace adhoc trong B7.3: một ca chèn chỉ thị bị chuyển người, một ca hợp lệ gửi thông báo hãng đã lọc PII.
-- Chưa có mã commit hoặc `runs/<mã>`: tiêu chí chưa ký nên chưa chạy `lab10.eval`; chưa nhận gói incident để chạy grade.
+- Hai ticket hiểm B7.3 được ghi trong phiếu; chưa ghi mã adhoc hoặc report eval/grade vì Duẩn phụ trách chạy.
 
 ### Có sử dụng AI
 

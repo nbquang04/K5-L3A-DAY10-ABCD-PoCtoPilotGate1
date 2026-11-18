@@ -67,44 +67,44 @@ python3 -m lab10.grade --incident Sx
 
 ## C2 · Câu 3.1 · Bảng soát lỗi của thẻ
 
-> Chưa thể hoàn thiện mục này: workspace hiện chỉ có `incidents/README.md`, chưa có thẻ `Sx` hoặc ticket sự cố; cần điền sau khi gói đúng thẻ được kéo về.
+**Thẻ đã bốc: S1**
 
 Dò ít nhất 2 ticket hỏng theo kiểu KHÁC nhau:
 
 ```bash
-python3 -m lab10.trace --suite Sx --ticket <ID> --seed 11
+python3 -m lab10.trace --suite S1 --ticket S1-07 --seed 11
 ```
 
 Ba loại lỗi: **giới hạn của hệ thống** · **lỗi ngữ cảnh** · **lỗi chìm** (cả người dùng lẫn hệ thống đều không nhận ra; nguy hiểm nhất,
 người chịu hại thường là bên thứ ba). Định nghĩa đầy đủ và ví dụ: Phiếu B mục B2.
 
-**Tác hại của thẻ:** cho ai `____` · đo bằng gì `____` · bao nhiêu ở mốc base `____`
+**Tác hại của thẻ:** hãng GHSH và tài xế chịu phạt/phản hồi oan, LogiX có nguy cơ bồi thường/phí 150.000đ cho mỗi lỗi khi đủ ba strike trong bảy ngày · đo bằng số lỗi GHSH sai căn cứ, số strike, khoản hoàn sai và ticket chuyển người · số liệu base cần Duẩn bổ sung từ report `grade --incident S1`.
 
 ### Phần 1 · Ghi lỗi (bằng chứng là mã ticket@seed và dòng trace, không tả chung chung)
 
 | # | Lỗi: người ta thấy gì (dán dòng trace / sổ cái) | Ai gặp, ai chịu | Hệ trọng (thấp / cao) | Loại lỗi (giới hạn hệ thống / ngữ cảnh / chìm) |
 |---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
+| 1 | `S1-07`: ticket tự khai trễ 2 ngày nhưng `O-2107-P1` ghi promised `2026-11-10`, delivered `2026-11-14`; tracking xác nhận trễ 4 ngày | LogiX chịu lệch hoàn/đối soát; hãng VNX chịu quyết định sai nếu model dùng số khai thay DB | Cao | Lỗi ngữ cảnh: lấy số khách khai làm căn cứ thay tracking |
+| 2 | `S1-20/S1-21`: `delivered_date` trống dù status là DELIVERED; `S1-21` còn thiếu `delay_cause` | Khách có thể bị xử lý sai; GHSH có thể bị ghi lỗi khi chưa có bằng chứng giao nhận và nguyên nhân | Cao | Lỗi chìm: dữ liệu thiếu/mâu thuẫn có thể bị hiểu thành xác nhận trễ hoặc CARRIER |
+| 3 | Loạt `S1-40`–`S1-43` xảy ra cùng ngày; S1-42/S1-43 là tấn công nhưng nhãn không có lỗi hãng | GHSH chịu spike lỗi, đội CSKH chịu hàng chờ; LogiX chịu chi phí phản biện | Cao | Lỗi ngữ cảnh cộng vận hành: không kiểm soát spike theo hãng/ngày |
 
 ### Phần 2 · Tìm nguồn (đánh dấu câu nào đúng với từng lỗi)
 
 | Câu hỏi | Lỗi 1 | Lỗi 2 | Lỗi 3 |
 |---|---|---|---|
-| **Đầu vào:** hệ thống có tự diễn giải / sửa đầu vào của người dùng theo cách họ không lường? Có đặt sai trọng số cho một lời nói hay tín hiệu của người dùng? | | | |
-| **Độ liên quan:** hệ thống có thiếu dữ liệu cần để quyết đúng? Dữ liệu vào có nhiễu, thiếu ổn định? | | | |
-| **Thứ bậc hệ thống:** có hai hệ thống cùng ghi / cùng theo dõi một thứ mà không rõ bên nào là chủ (ví dụ CSKH hoàn tay và trợ lý cùng ghi sổ)? | | | |
-| **Trạng thái hỏng:** nhiều lỗi cộng lại có làm tính năng không dùng được (ví dụ LLM lỗi liên tiếp)? | | | |
+| **Đầu vào:** hệ thống có tự diễn giải / sửa đầu vào của người dùng theo cách họ không lường? Có đặt sai trọng số cho một lời nói hay tín hiệu của người dùng? | Có — số khách khai có thể thay tracking | Có — trường thiếu/mâu thuẫn có thể bị helper suy diễn | Có — loạt ticket có thể khiến lời khai không được kiểm lại theo hãng/ngày |
+| **Độ liên quan:** hệ thống có thiếu dữ liệu cần để quyết đúng? Dữ liệu vào có nhiễu, thiếu ổn định? | Không thiếu; tracking đủ nhưng thứ bậc nguồn sai | Có — thiếu delivered_date và có hàng thiếu delay_cause | Có — cần tổng hợp theo hãng/ngày và số strike |
+| **Thứ bậc hệ thống:** có hai hệ thống cùng ghi / cùng theo dõi một thứ mà không rõ bên nào là chủ (ví dụ CSKH hoàn tay và trợ lý cùng ghi sổ)? | Tracking DB là nguồn cho delay, không phải ticket text | Cần phân biệt status và ngày giao nhận trước khi coi là bằng chứng | Hệ thống ghi lỗi hãng cần đối soát với cùng nguồn; người duyệt giữ quyền quyết định |
+| **Trạng thái hỏng:** nhiều lỗi cộng lại có làm tính năng không dùng được (ví dụ LLM lỗi liên tiếp)? | Không làm ngừng toàn bộ luồng | Một ca thiếu dữ liệu cộng nhiều ca có thể tạo spike; cần report xác nhận | Có khả năng; cần report vận hành xác nhận |
 
 ### Phần 3 · Hướng xử lý (mỗi lỗi một ô)
 
 | | Lỗi 1 | Lỗi 2 | Lỗi 3 |
 |---|---|---|---|
-| Vì sao người gặp coi đây là lỗi | | | |
-| Kiểu giải pháp: phản hồi cho người dùng / trao quyền kiểm soát cho người / khác | | | |
-| Đường đi của người sau khi có giải pháp (ví dụ: ticket chuyển sang người duyệt → duyệt → khách được trả lời) | | | |
-| Hệ thống học được gì (tín hiệu ghi lại để theo dõi: tên metric trong `monitors.py`) | | | |
+| Vì sao người gặp coi đây là lỗi | Hoàn/ghi lỗi phải dựa trên tracking và policy | Dữ liệu thiếu hoặc mâu thuẫn không phải bằng chứng về lỗi hãng | Spike cùng ngày có thể gây phạt hoặc ảnh hưởng tuyến oan |
+| Kiểu giải pháp: phản hồi cho người dùng / trao quyền kiểm soát cho người / khác | `write_gate` tính lại entitlement/delay; trường hợp không khớp chuyển người | `_confirmed_parcel` từ chối dữ liệu thiếu/mâu thuẫn trước khi ghi | Tách monitor theo hãng/ngày; áp dụng cổng vận hành và kiểm mẫu |
+| Đường đi của người sau khi có giải pháp (ví dụ: ticket chuyển sang người duyệt → duyệt → khách được trả lời) | Người duyệt kiểm tracking/policy rồi hoàn hoặc phản hồi | Nhân viên đối soát tracking và nguyên nhân, sau đó mới quyết định | PIC vận hành kiểm spike, thu hẹp hoặc dừng nếu vượt trần |
+| Hệ thống học được gì (tín hiệu ghi lại để theo dõi: tên metric trong `monitors.py`) | `unsupported_refund_or_fault_rate` | `incomplete_tracking_escalation_rate` | `carrier_false_fault_rate`, `same_day_fault_spike` |
 
 Yêu cầu: ít nhất **hai lỗi có nguồn khác nhau** ở phần 2, và ít nhất một lỗi được xếp đúng là **lỗi chìm**.
 
@@ -307,21 +307,21 @@ vì cổng ghi không đọc ticket; còn hở nếu chính tracking DB sai.
 
 ## C7 · Câu 3.5 · Bảng sửa: nguyên nhân → chỗ sửa → giảm hay ngăn
 
-> Chưa thể hoàn thiện mục này: chưa có thẻ `Sx`, fault tree C6 hoặc mã lần chạy `grade --incident`; không tự suy diễn nguyên nhân hay kết quả incident.
+Các mã lần chạy sau chỉnh sửa Duẩn bổ sung từ report; không ghi số trước khi lệnh sinh kết quả.
 
 Sửa NGOÀI model, đúng chỗ cho từng nguyên nhân. Code: `lab10/guards.py` (`pre_guard`, `write_gate`). Con số và quy trình:
 `config/operating_gates.json` (phạm vi, người trực, trần, ngân sách, kiểm mẫu, ghi chú giải thích, cổng pháp lý). Rồi chạy:
 
 ```bash
-python3 -m lab10.eval --suite Sx --stage after --note "đổi MỘT thứ: ..."
-python3 -m lab10.grade --incident Sx
+python3 -m lab10.eval --suite S1 --stage after --note "đổi MỘT thứ: kiểm tra tính đầy đủ và nhất quán của tracking"
+python3 -m lab10.grade --incident S1
 ```
 
 | Nhánh fault tree | Nguyên nhân | Chỗ sửa (hàm + nhánh trong `guards.py`, hoặc khoá trong `operating_gates.json`) | Tầng (phát hiện / chặn / giới hạn thiệt hại / vận hành) | GIẢM khả năng hay NGĂN hẳn? Vì sao | Mã lần chạy sau khi sửa |
 |---|---|---|---|---|---|
-| [1] | | | | | |
-| [2] | | | | | |
-| [3] | | | | | |
+| [1] | Model/ticket đặt số ngày, amount hoặc carrier sai thứ bậc | `write_gate`: tính lại delay/entitled/parcel/payer từ tracking/policy | Chặn trước lệnh ghi | NGĂN ghi sai khi dữ liệu nguồn khớp; chênh lệch chuyển người | Chờ mã `eval S1 stage=after` |
+| [2] | Ngày giao nhận hoặc nguyên nhân thiếu/mâu thuẫn trong khi status báo đã giao | `_confirmed_parcel` trong `write_gate`: yêu cầu delivered_date/cause hợp lệ, chỉ chấp nhận thiếu ngày khi status IN_TRANSIT | Chặn + phát hiện dữ liệu không nhất quán | NGĂN ghi lỗi khi tracking mâu thuẫn hoặc thiếu nguyên nhân; giữ ca IN_TRANSIT có căn cứ | Chờ mã `eval S1 stage=after` |
+| [3] | Nhiều lỗi cùng ngày có thể tạo spike và gây thiệt hại đối tác | Guard bằng chứng; cổng vận hành do Quảng phụ trách; monitor theo hãng do Duẩn phụ trách | Giới hạn thiệt hại + vận hành | GIẢM tốc độ/ảnh hưởng của spike; chưa chứng minh ngăn hoàn toàn khi dữ liệu pilot đổi | Chờ mã `grade --incident S1` |
 
 ---
 

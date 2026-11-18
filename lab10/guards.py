@@ -54,6 +54,23 @@ def pre_guard(ctx):
     return Verdict.allow(policy_id=policy["policy_id"])
 
 
+def _confirmed_parcel(order, ctx, allow_in_transit=False):
+    parcels = order.get("parcels") or []
+    if not parcels:
+        return None, "đơn không có kiện để đối chiếu độ trễ"
+
+    parcel = max(parcels, key=lambda p: H.db_delay_days(p, ctx.as_of))
+    if not parcel.get("delivered_date"):
+        if not allow_in_transit or parcel.get("status") != "IN_TRANSIT":
+            return None, "tracking chưa có ngày giao nhận xác nhận; không tự hoàn hoặc ghi lỗi hãng"
+    if not parcel.get("delay_cause"):
+        return None, "tracking chưa ghi nguyên nhân trễ; không tự hoàn hoặc ghi lỗi hãng"
+    if parcel.get("status") not in (None, "DELIVERED") and not (
+            allow_in_transit and parcel.get("status") == "IN_TRANSIT"):
+        return None, "trạng thái kiện không xác nhận đã giao nhận"
+    return parcel, None
+
+
 def write_gate(ctx, action):
     tool = action.get("tool")
 
@@ -65,12 +82,11 @@ def write_gate(ctx, action):
         if ctx.tools.ledger_rows(ticket_id=action["ticket_id"]):
             return Verdict.deny("ticket đã có khoản hoàn; không ghi hoàn lần hai")
 
-        parcels = order.get("parcels") or []
-        if not parcels:
-            return Verdict.escalate("đơn không có kiện để đối chiếu độ trễ")
-        parcel = max(parcels, key=lambda p: H.db_delay_days(p, ctx.as_of))
+        parcel, tracking_error = _confirmed_parcel(order, ctx, allow_in_transit=True)
+        if parcel is None:
+            return Verdict.escalate(tracking_error)
         delay = H.db_delay_days(parcel, ctx.as_of)
-        cause = parcel.get("delay_cause") or ("CARRIER" if delay > 0 else None)
+        cause = parcel.get("delay_cause")
         entitled = H.entitlement_vnd(policy, order, delay, cause)
         if entitled <= 0:
             return Verdict.escalate("dữ liệu tracking và chính sách không xác nhận quyền hoàn")
@@ -107,10 +123,9 @@ def write_gate(ctx, action):
         if order is None or policy is None:
             return Verdict.escalate("không xác minh được đơn, chủ đơn hoặc chính sách hiện hành")
 
-        parcels = order.get("parcels") or []
-        if not parcels:
-            return Verdict.deny("đơn không có kiện để ghi lỗi hãng")
-        parcel = max(parcels, key=lambda p: H.db_delay_days(p, ctx.as_of))
+        parcel, tracking_error = _confirmed_parcel(order, ctx, allow_in_transit=True)
+        if parcel is None:
+            return Verdict.deny(tracking_error)
         delay = H.db_delay_days(parcel, ctx.as_of)
         if not H.carrier_at_fault(policy, parcel, delay):
             return Verdict.deny("tracking không xác nhận độ trễ và nguyên nhân thuộc trách nhiệm hãng")
