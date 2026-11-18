@@ -5,7 +5,7 @@
 - Tên nhóm (`TenNhom`, không dấu, không khoảng trắng): ABCD
 - Lớp: `L3A`
 - Repo của bàn: `K5-L3A-DAY10-ABCD-PoCtoPilotGate1` (đối chiếu remote `origin`)
-- Thẻ sự cố đã bốc (S1–S8):
+- Thẻ sự cố đã bốc (S1–S8): S1 (đã nhận trong commit `9d0a8b5` theo chỉ định của người dùng)
 
 ## Thành viên
 
@@ -119,6 +119,8 @@ Vận hành và pháp lý: Phiếu A câu 1.2, 1.4; Phiếu B B4–B5, B7.5–B7
 ### Đóng góp cụ thể
 
 Đã dùng trợ lý AI để đọc yêu cầu, đối chiếu dữ liệu mock và code; chuẩn bị mục tiêu của Oanh/Hạnh, thiết kế telemetry PII, HAZOP tool gửi hãng, checklist chín nhóm có PIC và dự thảo runbook. Đã điền thông tin nhóm/thành viên theo TEAM và remote origin vào metadata. Các đề xuất vận hành chưa được coi là quyết định của cả nhóm; chưa áp dụng config, chưa chạy đánh giá, chưa làm phần sự cố khi chưa có thẻ.
+
+Cập nhật sau khi nhận S1: đã nhập operations/legal trong operating_gates.json; hoàn thiện bảng runbook 1–3 và giờ cao điểm, cập nhật HAZOP theo guard hiện tại, metadata incident=S1. Giữ nguyên business của Dũng và tiêu chí đã ký. Chưa có runs/round1.lock trên máy khi cập nhật; không coi cấu hình này là bản prepared trước sự cố, chưa kết luận đạt SLA/chi phí/pháp lý. Chưa chạy eval, grade hoặc tạo checkpoint; cần Duẩn và nhóm xác minh mốc đánh giá với Coach.
 
 ### Bằng chứng
 

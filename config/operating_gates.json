@@ -7,18 +7,23 @@
     "roi_min": null
   },
   "operations": {
-    "pic": "",
-    "approver_id": "",
+    "pic": "NV-TUNG",
+    "approver_id": "NV-HANH",
     "reviewers_on_shift": 1,
-    "review_capacity_per_hour": null,
-    "max_queue_wait_minutes": null,
-    "stop_conditions": [],
-    "alert_channel": "",
-    "decision_note": false,
-    "review_sampling_pct": 0
+    "review_capacity_per_hour": 6,
+    "max_queue_wait_minutes": 60,
+    "stop_conditions": [
+      "Có tiền hoàn sai, lỗi hãng oan hoặc lộ PII: NV-TUNG cô lập thao tác gây hại trong tối đa 5 phút; NV-HANH tiếp nhận xử lý thủ công, NV-OANH đối soát hậu quả.",
+      "Chờ người duyệt từ 60 phút hoặc có ca bị ùn: không mở rộng pilot; NV-TUNG phối hợp NV-HANH thu hẹp luồng bị ảnh hưởng và chuyển người xử lý.",
+      "Chi phí trung bình trên 10000 VND/ticket, ROI dưới 0 hoặc vượt trần tiền đã duyệt/ngân sách Finance: tạm dừng mở rộng, rà soát phạm vi với người phụ trách kinh doanh.",
+      "Không cô lập được nguyên nhân hoặc không có phương án xử lý thủ công khả thi: dừng triển khai tự động; chỉ bật lại sau sửa, đánh giá lại và xác nhận của NV-TUNG, NV-HANH."
+    ],
+    "alert_channel": "logix-pilot-alerts (kênh mô phỏng cho lab; cần xác nhận trước pilot thật)",
+    "decision_note": true,
+    "review_sampling_pct": 10
   },
   "legal": {
-    "pii_fields_blocked_to_third_party": [],
-    "carrier_fault_requires_recorded_cause": false
+    "pii_fields_blocked_to_third_party": ["recipient_contact", "customer_note", "name", "phone", "street"],
+    "carrier_fault_requires_recorded_cause": true
   }
 }
