@@ -1,0 +1,24 @@
+
+# Preserve original LF for verified locked source files only.
+/data/tickets.jsonl text eol=lf
+/data/world.json text eol=lf
+/incidents/S1/card.json text eol=lf
+/incidents/S1/card.md text eol=lf
+/incidents/S1/tickets.jsonl text eol=lf
+/incidents/S1/world_patch.json text eol=lf
+/lab10/__init__.py text eol=lf
+/lab10/_gradectx.py text eol=lf
+/lab10/_noop_guards.py text eol=lf
+/lab10/agent.py text eol=lf
+/lab10/check_submission.py text eol=lf
+/lab10/checkpoint.py text eol=lf
+/lab10/criteria.py text eol=lf
+/lab10/eval.py text eol=lf
+/lab10/gate.py text eol=lf
+/lab10/grade.py text eol=lf
+/lab10/helpers.py text eol=lf
+/lab10/mock_llm.py text eol=lf
+/lab10/ops.py text eol=lf
+/lab10/tools.py text eol=lf
+/lab10/trace.py text eol=lf
+/lab10/world.py text eol=lf

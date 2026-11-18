@@ -1,6 +1,10 @@
 # Kiểm chứng và giới hạn hồ sơ Gate 1
 
-Grade cuối: `R-S1-grade-20261118-174856-4ee9d5`. Quyết định soạn từ bằng chứng: Cải tiến thêm, chưa cho pilot thật.
+## Cập nhật khôi phục LF
+
+Theo yêu cầu khắc phục xuống dòng, đã khôi phục 22 file từ CRLF về LF và kiểm hash từng file khớp MANIFEST gốc; không sửa nội dung, manifest, test, tiêu chí hoặc snapshot. `.gitattributes` chỉ giữ LF cho đúng 22 file này. Grade mới `R-S1-grade-20261118-210725-4ee9d5`: hết 22 lỗi newline, criteria và checkpoint còn nguyên; visible/regression/monitor đạt. Integrity còn FAIL do 28 file S2–S8 thiếu và `tests/test_public.py` khác nguồn. Những ghi chú bên dưới mô tả các mốc trước khi khôi phục LF.
+
+Grade cuối: `R-S1-grade-20261118-194539-4ee9d5`. Quyết định soạn từ bằng chứng: Cải tiến thêm, chưa cho pilot thật. Chạy bổ sung 15/15 test đạt; eval S1 `R-S1-after-20261118-194538-4ee9d5` đạt 25/25 trial trong HN. Kết quả không đổi; file khóa, tiêu chí và snapshot giữ nguyên. Các mã 1748xx bên dưới là bằng chứng lịch sử.
 
 - Criteria, visible, regression, monitor đạt; integrity chưa đạt, hidden không có. Các ngưỡng xanh không thay thế điều kiện integrity.
 - Diagnostic hash chỉ đọc: {'CRLF_only': 22, 'missing': 28, 'different': 1}. `CRLF_only` nghĩa là thay CRLF bằng LF trong bộ nhớ thì khớp manifest, không khẳng định file đã được sửa hoặc được Coach chấp thuận. Không sửa file khóa/manifest để lấy PASS.

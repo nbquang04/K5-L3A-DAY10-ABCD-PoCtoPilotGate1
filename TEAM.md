@@ -180,9 +180,9 @@ Bằng chứng cập nhật: grade `R-S1-grade-20261118-174856-4ee9d5`, full-sco
 
 Commit 558a1c2 ghi hoàn thành B0/B1 và thêm snapshot; journal giữ baseline, after và prepared. Monitor carrier_fault_rate có trong repo. Kết quả grade cuối được trợ lý chạy bổ sung theo yêu cầu Quảng, không gán là Duẩn đã chạy.
 
-### Exit ticket — chờ thành viên tự viết
+### Exit ticket — bổ sung có hỗ trợ AI, chờ Duẩn xác nhận
 
-Gợi ý rà soát: metric tần suất ghi lỗi không đồng nghĩa tỷ lệ ghi oan; cần giải thích mẫu số, độ phủ và thiếu nhãn. Duẩn tự ghi điều học được/điều chưa chắc, nguồn dùng AI và xác nhận phần thực làm.
+Bài học từ bằng chứng: carrier_fault_rate đo tần suất ghi lỗi, không đo tỷ lệ ghi oan khi production không có nhãn. Cần đọc cùng độ phủ và guard events để tránh kết luận an toàn hơn chỉ vì chuyển nhiều ca cho người. Điều chưa chắc là tracking thật có đúng và công suất reviewer giờ cao điểm có giữ SLA hay không. Trợ lý tổng hợp từ code/report theo yêu cầu Quảng; Duẩn cần xác nhận đóng góp và việc dùng AI thực tế của mình. Đây chưa phải lời khai cá nhân đã ký.
 
 ## BuiNguyenDung-2A202603587
 
@@ -194,6 +194,10 @@ Tiêu chí, kinh doanh và quyết định Gate. Bản tóm tắt do trợ lý s
 
 Phiếu A có mục tiêu, tiêu chí 0,90/0,80, an toàn 0, chi phí 10000đ, ROI 0, queue 0; tiêu chí được ký bằng commit 448ef7a. Phiếu B có bản đồ dữ liệu/pre-mortem. B8/C12 và quyết định metadata được trợ lý bổ sung theo yêu cầu Quảng, không ghi thay chữ ký của Dũng.
 
-### Exit ticket — chờ thành viên tự viết
+### Exit ticket — bổ sung có hỗ trợ AI, chờ Dũng xác nhận
 
-Gợi ý rà soát: ngân sách máy 1500đ khác chi phí toàn phần 10000đ; kết quả HN không suy rộng các kho. Dũng tự ghi bài học, phần chưa chắc và việc dùng AI thực tế.
+Bài học từ bằng chứng: ngân sách máy 1500đ khác chi phí toàn phần 10000đ/ticket. Full-scope đạt chất lượng nhưng CT/DN đắt hơn làm tay; HN chỉ là phạm vi ứng viên. Chọn Cải tiến thêm vì integrity và bằng chứng vận hành còn thiếu, không nới tiêu chí đã ký. Trợ lý tổng hợp từ tiêu chí/report theo yêu cầu Quảng; Dũng cần xác nhận đóng góp và việc dùng AI thực tế. Đoạn này không thay chữ ký cá nhân.
+
+### Đánh giá bổ sung cuối
+
+15/15 kiểm thử công khai đạt. Eval S1 R-S1-after-20261118-194538-4ee9d5 đạt 25/25 trial trong HN. Grade R-S1-grade-20261118-194539-4ee9d5 vẫn FAIL do integrity. Không thay đổi file khóa, tiêu chí hoặc snapshot.

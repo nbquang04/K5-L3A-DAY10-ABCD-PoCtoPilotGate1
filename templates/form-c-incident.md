@@ -78,7 +78,7 @@ python3 -m lab10.trace --suite S1 --ticket S1-07 --seed 11
 Ba loại lỗi: **giới hạn của hệ thống** · **lỗi ngữ cảnh** · **lỗi chìm** (cả người dùng lẫn hệ thống đều không nhận ra; nguy hiểm nhất,
 người chịu hại thường là bên thứ ba). Định nghĩa đầy đủ và ví dụ: Phiếu B mục B2.
 
-**Tác hại của thẻ:** hãng GHSH và tài xế chịu phạt/phản hồi oan, LogiX có nguy cơ bồi thường/phí 150.000đ cho mỗi lỗi khi đủ ba strike trong bảy ngày · đo bằng số lỗi GHSH sai căn cứ, số strike, khoản hoàn sai và ticket chuyển người · số liệu base cần Duẩn bổ sung từ report `grade --incident S1`.
+**Tác hại của thẻ:** GHSH bị phạt 150.000đ mỗi lỗi; đủ 3 lỗi trong 7 ngày có thể bị tạm ngưng tuyến, ảnh hưởng tài xế và hoạt động giao hàng. Report base `R-S1-before-20261118-174857-4ee9d5` ghi 30 lỗi hãng oan và 985.000đ hoàn sai qua 5 seed. Đây là tổng trial mô phỏng, không phải 30 strike thực tế trong một ngày; không cộng các seed thành tiền phạt hợp đồng. Theo dõi số lỗi sai căn cứ theo hãng/ngày, strike trong 7 ngày, khoản hoàn sai và lượng ca chuyển người.
 
 ### Phần 1 · Ghi lỗi (bằng chứng là mã ticket@seed và dòng trace, không tả chung chung)
 
@@ -249,7 +249,6 @@ Tool chọn phân tích: `file_carrier_fault` và luồng trước ghi tiền c�
 | delay_days / lời khai | WRONG | S1-01@11: khách khai 5 ngày, tracking chỉ 2 ngày | GHSH nhận lỗi không đủ ngưỡng | Prepared đối chiếu tracking chặn nhánh này; chưa ngăn dữ liệu nguồn sai | Chặn bằng tracking/policy, không đọc lời khai làm nguồn. |
 | delivered_date/status | INCOMPLETE | S1-20@11 prepared: status đã giao nhưng ngày trống, helper tính tới as_of | Hoàn 22.000đ và lỗi GHSH không đủ bằng chứng | Snapshot chưa có _confirmed_parcel | Chuyển người trước issue_refund khi thiếu ngày mà không IN_TRANSIT; phát hiện bằng incomplete_tracking_escalation_rate. |
 | Số strike/hãng/ngày | PERTURBED | S1-40..43 cùng ngày; dữ liệu có thể dồn lặp và vượt trần 2 lỗi tự động | Phạt/dừng tuyến, người duyệt quá tải | Config round1 chưa có trần bổ sung; guard chưa đếm | Guard mới đếm fault_rows, escalate trước tiền và deny lần ghi vượt; carrier_strike_limit_rate. |
-
 | delivered_date có hình thức hợp lệ nhưng sai thật | WRONG | Giả thuyết chưa thấy trên trace: chữ ký đã giao có nhưng DB nhập sai ngày | Guard vẫn có thể ghi lỗi oan khi tin DB | Mock không xác minh chữ ký ngoài hệ thống | Oanh kiểm mẫu/đối soát, tiếp nhận khiếu nại; giảm rủi ro, không bảo đảm ngăn. |
 
 Bắt buộc: ít nhất ba dòng, trong đó **một dòng là nhánh bàn chưa thấy trên trace** lúc viết.
@@ -459,6 +458,10 @@ Cột v1 nằm ở Phiếu B mục B8; không sửa cột đó.
 - Prepared giảm hoàn sai 985.000→275.000đ, lỗi oan 30→15; bỏ sót dữ liệu giao nhận thiếu và từ chối trước ghi. Thời điểm checkpoint không chứng minh được chuẩn bị trước khi biết sự cố, nên không xin ghi nhận thành tích chuẩn bị mù.
 - Phần ngưỡng của report cho phép cân nhắc Tiếp tục trên HN, nhưng kết luận tổng vẫn FAIL do integrity. Chọn Cải tiến thêm thận trọng, không suy ra phê duyệt từ việc riêng ngưỡng vận hành xanh.
 - Chưa đo tracking đúng/sai bằng chứng từ bên ngoài và tải thực 3×; vì vậy giữ pilot thật chờ kiểm chứng, không suy rộng kết quả MockLLM.
+
+### Đánh giá bổ sung cuối (giữ nguyên các mốc lịch sử phía trên)
+
+Grade `R-S1-grade-20261118-194539-4ee9d5`: base `R-S1-before-20261118-194540-4ee9d5`, prepared `R-S1-prepared-20261118-194540-4ee9d5`, after `R-S1-after-20261118-194540-4ee9d5`. HN đạt 25/25 trial, 0 hoàn sai/thiếu hoàn/lỗi oan/PII, chi phí 8724đ/ticket, ROI 0,15, độ phủ 38,46%. Bộ nền pass=1, chi phí 8102đ, ROI 0,23, escalation 37,5%. Criteria/visible/regression/monitor đạt; integrity FAIL; hidden chưa có. 15/15 kiểm thử công khai đạt. Giữ quyết định Cải tiến thêm và nguyên trạng file khóa, tiêu chí, snapshot; đánh giá mới không khắc phục thứ tự nhận thẻ/checkpoint. PIC vẫn cần nhóm xác nhận quyết định thực tế.
 
 **Ba dòng bắt buộc** (chép nguyên ba câu này sang `submission/submission.json`, mục `three_lines`)
 1. Thiết kế đang dựa vào tracking DB và chính sách có hiệu lực là đúng; dữ liệu đã giao nhưng thiếu ngày hoặc nguyên nhân như S1-20/S1-21 cho thấy giả định này có thể sai, nên dữ liệu thiếu phải chuyển người trước khi ghi tiền.

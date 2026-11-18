@@ -63,5 +63,13 @@
       "tests/test_public.py"
     ]
   },
-  "note": "Read-only diagnosis; no locked files or MANIFEST altered. Other cards are missing, not opened or fetched."
+  "note": "Read-only diagnosis; no locked files or MANIFEST altered. Other cards are missing, not opened or fetched.",
+  "verification_after_lf_restore": {
+    "grade": "R-S1-grade-20261118-210725-4ee9d5",
+    "CRLF_only_remaining": 0,
+    "missing": 28,
+    "different": 1,
+    "criteria_unchanged": true,
+    "round1_unchanged": true
+  }
 }

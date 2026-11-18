@@ -204,14 +204,14 @@ Trạng thái: **Xong** (có bằng chứng) · **Chưa** · **Không áp dụng
 
 | # | Nhóm việc | Bằng chứng lấy từ đâu (đã có sẵn trong lab) | Mục cần kiểm tra | Trạng thái | Bằng chứng | PIC |
 |---|---|---|---|---|---|---|
-| 1 | Chất lượng | Report và B2 | Đạt ngưỡng đã ký, không regression | Chưa | Chưa chạy đánh giá; chờ tiêu chí ký và push | Đỗ Đức Duẩn |
-| 2 | Dữ liệu | B3 và dữ liệu nguồn | Nguồn sự thật, ngày hiệu lực, drift | Chưa | Chờ Dũng hoàn thiện B3 | Bùi Nguyên Dũng |
-| 3 | Bảo mật | B4, nhánh PERTURBED | Không chuyển tiếp chỉ dẫn và PII trong chữ khách | Chưa | B4 có phân tích từ code; chờ cổng và kiểm chứng | Hoàng Văn Bảo |
-| 4 | Quyền hạn | Switches và guard; C3 nếu đúng thẻ | Phê duyệt hợp lệ, đúng đối tượng/hạn mức | Chưa | Chờ guard và trace; giữ nguyên switches bị khóa | Hoàng Văn Bảo |
+| 1 | Chất lượng | Report và B2 | Đạt ngưỡng đã ký, không regression | Chưa | Grade R-S1-grade-20261118-194539-4ee9d5: visible/regression đạt; integrity FAIL, chưa đủ điều kiện qua | Đỗ Đức Duẩn |
+| 2 | Dữ liệu | B3 và dữ liệu nguồn | Nguồn sự thật, ngày hiệu lực, drift | Chưa | B3 đã có nguồn/ngày hiệu lực/drift; C5 nêu tracking thiếu hoặc sai; chưa đối soát chứng từ thật | Bùi Nguyên Dũng |
+| 3 | Bảo mật | B4, nhánh PERTURBED | Không chuyển tiếp chỉ dẫn và PII trong chữ khách | Chưa | Guard kiểm nguồn và allowlist; S1 after PII=0; chưa chứng minh trên dữ liệu ngoài mock | Hoàng Văn Bảo |
+| 4 | Quyền hạn | Switches và guard; C3 nếu đúng thẻ | Phê duyệt hợp lệ, đúng đối tượng/hạn mức | Chưa | Guard kiểm chủ đơn/phê duyệt/số tiền; trace adhoc và regression đạt; chưa kiểm quyền trên hệ thống thật | Hoàng Văn Bảo |
 | 5 | Hiệu năng, hạ tầng | HAZOP INCAPABLE và report hàng chờ | Công suất, lỗi LLM và SLA giờ dồn ca | Chưa | ops_facts: 6 ca/người/giờ, ca 480 phút; chưa đo tải | Đỗ Đức Duẩn |
-| 6 | Chi phí | Report và config business | Chi phí, ROI, tiền máy và tổng hoàn ngày | Chưa | Làm tay 10.000đ/ticket; chờ business và report | Bùi Nguyên Dũng |
+| 6 | Chi phí | Report và config business | Chi phí, ROI, tiền máy và tổng hoàn ngày | Chưa | HN: S1 8724đ/ticket, ROI 0,15; nền 8102đ, ROI 0,23; all-scope CT/DN vượt 10000đ làm tay; chưa đo chi phí thật | Bùi Nguyên Dũng |
 | 7 | Vận hành | B7.5–B7.6, config operations, monitors | PIC, kênh báo, hạn dừng và runbook khớp config | Chưa | Đã điền config và runbook sau nhận S1; chưa có report tải, kênh chỉ mô phỏng, chưa diễn tập dừng | Nguyễn Bá Quảng |
-| 8 | Con người, pháp lý | A1/A2, B4, config legal; C3 nếu đúng thẻ | Giảm PII gửi hãng, nguyên nhân lỗi có căn cứ, quyền người duyệt | Chưa | Đã nhập blocklist và yêu cầu nguyên nhân, guard có allowlist; chưa có report/trace kiểm chứng, phần sự cố chờ mốc đo hợp lệ | Nguyễn Bá Quảng |
+| 8 | Con người, pháp lý | A1/A2, B4, config legal; C3 nếu đúng thẻ | Giảm PII gửi hãng, nguyên nhân lỗi có căn cứ, quyền người duyệt | Chưa | Blocklist/allowlist và kiểm nguyên nhân đã có; S1 after PII/lỗi oan=0; thiếu đối soát bên hãng và xác minh integrity | Nguyễn Bá Quảng |
 | 9 | Quyết định | A4, hash tiêu chí, B8, C12 | Ký trước đo, v1/v2 khớp bằng chứng | Chưa | Đã ký 448ef7a; quyết định v1 bổ sung hồi cứu tại B8, cần Coach xác nhận trình tự | Bùi Nguyên Dũng |
 
 Đối chiếu checklist với Lab 9: PRD §4–5 cung cấp yêu cầu kiểm tiền, quyền và release gate cho nhóm 1/3/4/9; PRD §6 và giới hạn eval card cho thấy vẫn thiếu bằng chứng production. Vì vậy các dòng còn Chưa không được đổi thành Xong chỉ vì Lab 9 đã có metric đạt. Chi phí, nhân sự, hàng chờ và pháp lý bên thứ ba phải kiểm riêng bằng dữ liệu/report Lab 10.
