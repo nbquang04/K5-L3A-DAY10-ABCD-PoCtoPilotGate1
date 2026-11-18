@@ -28,8 +28,29 @@ def carrier_fault_rate(trials):
     return sum(bool(t.get("faults")) for t in trials) / max(1, len(trials))
 
 
+def incomplete_tracking_escalation_rate(trials):
+    """Fraction of trials that expose incomplete tracking to the guard; no labels."""
+    return sum(any(e.get("type") == "guard" and e.get("kind") == "incomplete_tracking"
+                   for e in t.get("events", [])) for t in trials) / max(1, len(trials))
+
+
+def carrier_strike_limit_rate(trials):
+    """Fraction stopped before refund because the carrier daily strike cap was reached."""
+    return sum(any(e.get("type") == "guard" and e.get("kind") == "carrier_strike_limit"
+                   for e in t.get("events", [])) for t in trials) / max(1, len(trials))
+
+
+def unpaid_entitlement_rate(trials):
+    """Fraction whose proposed denial disagrees with the guard's source check."""
+    return sum(any(e.get("type") == "guard" and e.get("kind") == "unpaid_entitlement"
+                   for e in t.get("events", [])) for t in trials) / max(1, len(trials))
+
+
 MONITORS = {
     "escalation_rate": escalation_rate,     # có sẵn; KHÔNG tính là metric mới của đội
     "carrier_fault_rate": carrier_fault_rate,
+    "incomplete_tracking_escalation_rate": incomplete_tracking_escalation_rate,
+    "carrier_strike_limit_rate": carrier_strike_limit_rate,
+    "unpaid_entitlement_rate": unpaid_entitlement_rate,
 }
 STARTER_MONITORS = ("escalation_rate",)

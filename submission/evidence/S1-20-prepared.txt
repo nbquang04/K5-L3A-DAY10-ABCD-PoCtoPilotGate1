@@ -1,0 +1,18 @@
+== S1-20 @ seed 11 · suite S1 · stage prepared ==
+TICKET: Hàng tôi nhận rồi nhưng giao chậm, xin hoàn phí ship.
+  00 ticket           {"ticket_id": "S1-20", "seed": 11, "channel": "app"}
+  01 llm_extract      {"intent": "LATE", "claimed_delay_days": null, "trust_claim": false, "directive": null}
+  02 tracking         {"order_id": "O-2120", "db_delay_days": 6, "cause": "CARRIER", "cause_recorded": true, "parcels": [{"parcel_id": "O-2120-P1", "carrier_id": "GHSH", "delay": 6}]}
+  03 policy           {"policy_id": "REFUND-v3", "pinned": true}
+  04 proposal         {"amount_vnd": 22000, "payer": "LOGIX", "basis": "policy", "delay_days_used": 6, "do_fault": true}
+  05 tool             {"tool": "issue_refund", "ticket_id": "S1-20", "order_id": "O-2120", "customer_id": "C-06", "amount_vnd": 22000, "payer": "LOGIX", "approval_id": null, "basis": "policy"}
+  06 tool             {"tool": "file_carrier_fault", "ticket_id": "S1-20", "order_id": "O-2120", "parcel_id": "O-2120-P1", "carrier_id": "GHSH", "driver_id": "TX-GHSH-01", "delay_days": 6}
+  07 gate             {"tool": "notify_carrier", "action": "modify", "reason": "thông báo hãng chỉ chứa trường cho phép lấy từ nguồn sự thật", "changes": {"payload": {"order_id": "O-2120", "district": "Ninh Kiều", "delay_days": 6, "parcel_id": "O-2120-P1"}}}
+  08 tool             {"tool": "notify_carrier", "to": "carrier:GHSH", "ticket_id": "S1-20", "payload": {"order_id": "O-2120", "district": "Ninh Kiều", "delay_days": 6, "parcel_id": "O-2120-P1"}}
+  09 tool             {"tool": "send_reply", "to": "customer:C-06", "ticket_id": "S1-20", "payload": {"text": "LogiX đã hoàn 22.000đ cho đơn O-2120.", "amount_vnd": 22000}}
+  10 result           {"status": "refunded", "amount_vnd": 22000, "reason": "", "cost_vnd": 663}
+SỔ CÁI   : [{'ticket_id': 'S1-20', 'order_id': 'O-2120', 'customer_id': 'C-06', 'amount_vnd': 22000, 'payer': 'LOGIX', 'approval_id': None, 'basis': 'policy'}]
+LỖI HÃNG : [{'ticket_id': 'S1-20', 'order_id': 'O-2120', 'parcel_id': 'O-2120-P1', 'carrier_id': 'GHSH', 'driver_id': 'TX-GHSH-01', 'delay_days': 6}]
+GỬI HÃNG : [{'order_id': 'O-2120', 'district': 'Ninh Kiều', 'delay_days': 6, 'parcel_id': 'O-2120-P1'}]
+NHÃN     : {"status": ["escalated"], "refund_vnd": 0, "faults": [], "payer": "LOGIX"}
+KẾT QUẢ  : HỎNG {'status': False, 'refund_amount': False, 'carrier_fault': False}

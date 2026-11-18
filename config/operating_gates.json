@@ -3,7 +3,13 @@
   "business": {
     "daily_refund_cap_vnd": 2000000,
     "cost_budget_per_ticket_vnd": 1500,
-    "pilot_scope": {"mode": "warehouse", "warehouses": ["HN"], "percent": 100},
+    "pilot_scope": {
+      "mode": "warehouse",
+      "warehouses": [
+        "HN"
+      ],
+      "percent": 100
+    },
     "roi_min": 0.0
   },
   "operations": {
@@ -23,7 +29,13 @@
     "review_sampling_pct": 10
   },
   "legal": {
-    "pii_fields_blocked_to_third_party": ["recipient_contact", "customer_note", "name", "phone", "street"],
+    "pii_fields_blocked_to_third_party": [
+      "recipient_contact",
+      "customer_note",
+      "name",
+      "phone",
+      "street"
+    ],
     "carrier_fault_requires_recorded_cause": true
   }
 }

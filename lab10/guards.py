@@ -74,6 +74,17 @@ def _confirmed_parcel(order, ctx, allow_in_transit=False):
 def write_gate(ctx, action):
     tool = action.get("tool")
 
+    if tool == "send_reply":
+        plan = next((e for e in ctx.events if e.get("type") == "llm_extract"), {})
+        if plan.get("intent") == "LATE" and not ctx.tools.ledger_rows(ticket_id=ctx.ticket.get("ticket_id")):
+            order = ctx.tools.lookup_order(ctx.ticket.get("order_id"))
+            policy = H.effective_policy(ctx.tools.lookup_policies(), ctx.as_of)
+            if order and policy and order.get("customer_id") == ctx.ticket.get("customer_id"):
+                parcel, error = _confirmed_parcel(order, ctx, allow_in_transit=True)
+                if parcel and H.entitlement_vnd(policy, order, H.db_delay_days(parcel, ctx.as_of), parcel.get("delay_cause")) > 0:
+                    ctx.log("unpaid_entitlement", order_id=order["order_id"])
+                    return Verdict.escalate("tracking xác nhận quyền hoàn nhưng sổ chưa ghi; người duyệt kiểm trước khi trả lời từ chối")
+
     if tool == "issue_refund":
         order, policy = _order_and_policy(ctx, action)
         if order is None or policy is None:
@@ -84,12 +95,20 @@ def write_gate(ctx, action):
 
         parcel, tracking_error = _confirmed_parcel(order, ctx, allow_in_transit=True)
         if parcel is None:
+            ctx.log("incomplete_tracking", reason=tracking_error)
             return Verdict.escalate(tracking_error)
         delay = H.db_delay_days(parcel, ctx.as_of)
         cause = parcel.get("delay_cause")
         entitled = H.entitlement_vnd(policy, order, delay, cause)
         if entitled <= 0:
             return Verdict.escalate("dữ liệu tracking và chính sách không xác nhận quyền hoàn")
+
+        strike_cap = ctx.tools.ops_limits().get("max_auto_strikes_per_carrier_per_day")
+        strikes = ctx.tools.fault_rows(carrier_id=parcel.get("carrier_id"))
+        if (strike_cap is not None and len(strikes) >= strike_cap
+                and H.carrier_at_fault(policy, parcel, delay)):
+            ctx.log("carrier_strike_limit", carrier_id=parcel.get("carrier_id"), count=len(strikes))
+            return Verdict.escalate("hãng đã chạm trần lỗi tự động trong ngày; chuyển người trước khi ghi tiền")
 
         amount = action.get("amount_vnd")
         if type(amount) is not int or amount <= 0:
@@ -125,10 +144,14 @@ def write_gate(ctx, action):
 
         parcel, tracking_error = _confirmed_parcel(order, ctx, allow_in_transit=True)
         if parcel is None:
+            ctx.log("incomplete_tracking", reason=tracking_error)
             return Verdict.deny(tracking_error)
         delay = H.db_delay_days(parcel, ctx.as_of)
         if not H.carrier_at_fault(policy, parcel, delay):
             return Verdict.deny("tracking không xác nhận độ trễ và nguyên nhân thuộc trách nhiệm hãng")
+        strike_cap = ctx.tools.ops_limits().get("max_auto_strikes_per_carrier_per_day")
+        if strike_cap is not None and len(ctx.tools.fault_rows(carrier_id=parcel.get("carrier_id"))) >= strike_cap:
+            return Verdict.deny("đã đạt trần ghi lỗi tự động của hãng trong ngày; chờ người xác minh")
         if any((
             action.get("parcel_id") != parcel["parcel_id"],
             action.get("carrier_id") != parcel["carrier_id"],

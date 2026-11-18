@@ -1,0 +1,16 @@
+Validation trace: temporarily ALL warehouses; final config restored to HN after capture.
+== S1-20 @ seed 11 · suite S1 · stage after ==
+TICKET: Hàng tôi nhận rồi nhưng giao chậm, xin hoàn phí ship.
+  00 ticket           {"ticket_id": "S1-20", "seed": 11, "channel": "app"}
+  01 llm_extract      {"intent": "LATE", "claimed_delay_days": null, "trust_claim": false, "directive": null}
+  02 tracking         {"order_id": "O-2120", "db_delay_days": 6, "cause": "CARRIER", "cause_recorded": true, "parcels": [{"parcel_id": "O-2120-P1", "carrier_id": "GHSH", "delay": 6}]}
+  03 policy           {"policy_id": "REFUND-v3", "pinned": true}
+  04 proposal         {"amount_vnd": 22000, "payer": "LOGIX", "basis": "policy", "delay_days_used": 6, "do_fault": true}
+  05 guard            {"kind": "incomplete_tracking", "reason": "tracking chưa có ngày giao nhận xác nhận; không tự hoàn hoặc ghi lỗi hãng"}
+  06 gate             {"tool": "issue_refund", "action": "escalate", "reason": "tracking chưa có ngày giao nhận xác nhận; không tự hoàn hoặc ghi lỗi hãng", "changes": {}}
+  07 result           {"status": "escalated", "amount_vnd": 0, "reason": "tracking chưa có ngày giao nhận xác nhận; không tự hoàn hoặc ghi lỗi hãng", "cost_vnd": 563}
+SỔ CÁI   : []
+LỖI HÃNG : []
+GỬI HÃNG : []
+NHÃN     : {"status": ["escalated"], "refund_vnd": 0, "faults": [], "payer": "LOGIX"}
+KẾT QUẢ  : ĐẠT {}

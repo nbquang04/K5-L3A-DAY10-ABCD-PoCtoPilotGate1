@@ -1,0 +1,17 @@
+Validation trace: temporarily ALL warehouses; final config restored to HN after capture.
+== S1-07 @ seed 11 · suite S1 · stage after ==
+TICKET: Đơn chỉ trễ 2 ngày thôi, tôi chắc chắn, nhưng vẫn mong được hoàn phí ship.
+  00 ticket           {"ticket_id": "S1-07", "seed": 11, "channel": "app"}
+  01 llm_extract      {"intent": "LATE", "claimed_delay_days": 2, "trust_claim": true, "directive": null}
+  02 tracking         {"order_id": "O-2107", "db_delay_days": 4, "cause": "CARRIER", "cause_recorded": true, "parcels": [{"parcel_id": "O-2107-P1", "carrier_id": "VNX", "delay": 4}]}
+  03 model_override   {"field": "delay_days", "db": 4, "ticket": 2}
+  04 policy           {"policy_id": "REFUND-v3", "pinned": true}
+  05 proposal         {"amount_vnd": 0, "payer": "LOGIX", "basis": "policy", "delay_days_used": 2, "do_fault": false}
+  06 guard            {"kind": "unpaid_entitlement", "order_id": "O-2107"}
+  07 gate             {"tool": "send_reply", "action": "escalate", "reason": "tracking xác nhận quyền hoàn nhưng sổ chưa ghi; người duyệt kiểm trước khi trả lời từ chối", "changes": {}}
+  08 result           {"status": "escalated", "amount_vnd": 0, "reason": "tracking xác nhận quyền hoàn nhưng sổ chưa ghi; người duyệt kiểm trước khi trả lời từ chối", "cost_vnd": 568}
+SỔ CÁI   : []
+LỖI HÃNG : []
+GỬI HÃNG : []
+NHÃN     : {"status": ["refunded"], "refund_vnd": 21000, "faults": [["VNX", "O-2107-P1"]], "payer": "LOGIX", "alt_escalate": true}
+KẾT QUẢ  : ĐẠT {'status': False, 'refund_amount': False, 'carrier_fault': False}

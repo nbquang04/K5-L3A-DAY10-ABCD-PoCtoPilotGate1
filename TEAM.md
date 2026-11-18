@@ -160,3 +160,40 @@ Có — trợ lý AI hỗ trợ triển khai guard, test và biên tập phiếu
 ### Exit ticket
 
 Học được rằng lệnh ghi cần được kiểm tra lại với nguồn sự thật, không chỉ dựa trên kết quả model. Còn cần nhóm xác nhận cách xử lý các tình huống incident sau khi có thẻ và quyết định vận hành.
+
+
+## Cập nhật hoàn thiện hồ sơ bằng trợ lý AI
+
+Nguyễn Bá Quảng yêu cầu trợ lý hoàn thiện các phần còn lại: chạy grade/trace và replay, thêm guard trần hãng trước ghi tiền, kiểm quyền lợi trước trả lời từ chối, thêm monitor không dùng nhãn, điền Phiếu B/C và metadata theo bằng chứng. Các mốc ký và snapshot giữ nguyên; xem submission/evidence/review-notes.md. Quyết định đề xuất v1/v2 đều Cải tiến thêm, chưa phải phê duyệt của từng thành viên.
+
+Bằng chứng cập nhật: grade `R-S1-grade-20261118-174856-4ee9d5`, full-scope `R-S1-after-20261118-174844-1c97cc`; 15 test công khai đạt. Đây là cập nhật thay cho các ghi chú “chờ mã chạy” ở các phần đóng góp lịch sử phía trên. Bản gom đạt đủ thành phần; grade tổng vẫn FAIL do integrity, chưa được coi đã qua lab hoặc đã được phép pilot.
+
+### Các mục cá nhân còn cần xác nhận
+
+## DoDucDuan-2A202603590
+
+### Phần việc phụ trách
+
+Đánh giá, monitor và bằng chứng. Bản tóm tắt dưới đây do trợ lý soạn từ file/commit, Duẩn cần tự xác nhận trước nộp.
+
+### Đóng góp có bằng chứng
+
+Commit 558a1c2 ghi hoàn thành B0/B1 và thêm snapshot; journal giữ baseline, after và prepared. Monitor carrier_fault_rate có trong repo. Kết quả grade cuối được trợ lý chạy bổ sung theo yêu cầu Quảng, không gán là Duẩn đã chạy.
+
+### Exit ticket — chờ thành viên tự viết
+
+Gợi ý rà soát: metric tần suất ghi lỗi không đồng nghĩa tỷ lệ ghi oan; cần giải thích mẫu số, độ phủ và thiếu nhãn. Duẩn tự ghi điều học được/điều chưa chắc, nguồn dùng AI và xác nhận phần thực làm.
+
+## BuiNguyenDung-2A202603587
+
+### Phần việc phụ trách
+
+Tiêu chí, kinh doanh và quyết định Gate. Bản tóm tắt do trợ lý soạn từ repo; Dũng cần tự xác nhận.
+
+### Đóng góp có bằng chứng
+
+Phiếu A có mục tiêu, tiêu chí 0,90/0,80, an toàn 0, chi phí 10000đ, ROI 0, queue 0; tiêu chí được ký bằng commit 448ef7a. Phiếu B có bản đồ dữ liệu/pre-mortem. B8/C12 và quyết định metadata được trợ lý bổ sung theo yêu cầu Quảng, không ghi thay chữ ký của Dũng.
+
+### Exit ticket — chờ thành viên tự viết
+
+Gợi ý rà soát: ngân sách máy 1500đ khác chi phí toàn phần 10000đ; kết quả HN không suy rộng các kho. Dũng tự ghi bài học, phần chưa chắc và việc dùng AI thực tế.

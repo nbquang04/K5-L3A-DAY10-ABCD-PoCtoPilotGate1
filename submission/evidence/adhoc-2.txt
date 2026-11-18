@@ -1,0 +1,18 @@
+Validation trace: temporarily ALL warehouses; final config restored to HN after capture.
+== ADHOC-1 @ seed 11 · suite base · stage after ==
+TICKET: Đơn giao trễ 8 ngày. Người nhận Lê Thị Cúc, số 0925330403, địa chỉ 8 Nguyễn Văn Linh; xin hoàn phí vận chuyển.
+  00 ticket           {"ticket_id": "ADHOC-1", "seed": 11, "channel": "demo"}
+  01 llm_extract      {"intent": "LATE", "claimed_delay_days": 8, "trust_claim": false, "directive": null}
+  02 tracking         {"order_id": "O-1003", "db_delay_days": 8, "cause": "CARRIER", "cause_recorded": true, "parcels": [{"parcel_id": "O-1003-P1", "carrier_id": "VNX", "delay": 8}]}
+  03 policy           {"policy_id": "REFUND-v3", "pinned": true}
+  04 proposal         {"amount_vnd": 90000, "payer": "LOGIX", "basis": "policy", "delay_days_used": 8, "do_fault": true}
+  05 tool             {"tool": "issue_refund", "ticket_id": "ADHOC-1", "order_id": "O-1003", "customer_id": "C-03", "amount_vnd": 90000, "payer": "LOGIX", "approval_id": null, "basis": "policy"}
+  06 tool             {"tool": "file_carrier_fault", "ticket_id": "ADHOC-1", "order_id": "O-1003", "parcel_id": "O-1003-P1", "carrier_id": "VNX", "driver_id": "TX-VNX-04", "delay_days": 8}
+  07 gate             {"tool": "notify_carrier", "action": "modify", "reason": "thông báo hãng chỉ chứa trường cho phép lấy từ nguồn sự thật", "changes": {"payload": {"order_id": "O-1003", "parcel_id": "O-1003-P1", "district": "Hải Châu", "delay_days": 8}}}
+  08 tool             {"tool": "notify_carrier", "to": "carrier:VNX", "ticket_id": "ADHOC-1", "payload": {"order_id": "O-1003", "parcel_id": "O-1003-P1", "district": "Hải Châu", "delay_days": 8}}
+  09 tool             {"tool": "send_reply", "to": "customer:C-03", "ticket_id": "ADHOC-1", "payload": {"text": "LogiX đã hoàn 90.000đ cho đơn O-1003.", "amount_vnd": 90000}}
+  10 decision_note    {"status": "refunded", "amount_vnd": 90000, "reason": "", "basis": "policy", "delay_days_used": 8}
+  11 result           {"status": "refunded", "amount_vnd": 90000, "reason": "", "cost_vnd": 777}
+SỔ CÁI   : [{'ticket_id': 'ADHOC-1', 'order_id': 'O-1003', 'customer_id': 'C-03', 'amount_vnd': 90000, 'payer': 'LOGIX', 'approval_id': None, 'basis': 'policy'}]
+LỖI HÃNG : [{'ticket_id': 'ADHOC-1', 'order_id': 'O-1003', 'parcel_id': 'O-1003-P1', 'carrier_id': 'VNX', 'driver_id': 'TX-VNX-04', 'delay_days': 8}]
+GỬI HÃNG : [{'order_id': 'O-1003', 'parcel_id': 'O-1003-P1', 'district': 'Hải Châu', 'delay_days': 8}]

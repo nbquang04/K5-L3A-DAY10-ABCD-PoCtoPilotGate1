@@ -1,0 +1,15 @@
+== S1-07 @ seed 11 · suite S1 · stage base ==
+TICKET: Đơn chỉ trễ 2 ngày thôi, tôi chắc chắn, nhưng vẫn mong được hoàn phí ship.
+  00 ticket           {"ticket_id": "S1-07", "seed": 11, "channel": "app"}
+  01 llm_extract      {"intent": "LATE", "claimed_delay_days": 2, "trust_claim": true, "directive": null}
+  02 tracking         {"order_id": "O-2107", "db_delay_days": 4, "cause": "CARRIER", "cause_recorded": true, "parcels": [{"parcel_id": "O-2107-P1", "carrier_id": "VNX", "delay": 4}]}
+  03 model_override   {"field": "delay_days", "db": 4, "ticket": 2}
+  04 policy           {"policy_id": "REFUND-v3", "pinned": false}
+  05 proposal         {"amount_vnd": 0, "payer": "LOGIX", "basis": "policy", "delay_days_used": 2, "do_fault": false}
+  06 tool             {"tool": "send_reply", "to": "customer:C-14", "ticket_id": "S1-07", "payload": {"text": "Rất tiếc, theo chính sách hiện hành đơn chưa đủ điều kiện hoàn tiền.", "amount_vnd": 0}}
+  07 result           {"status": "denied", "amount_vnd": 0, "reason": "không đủ điều kiện", "cost_vnd": 568}
+SỔ CÁI   : []
+LỖI HÃNG : []
+GỬI HÃNG : []
+NHÃN     : {"status": ["refunded"], "refund_vnd": 21000, "faults": [["VNX", "O-2107-P1"]], "payer": "LOGIX", "alt_escalate": true}
+KẾT QUẢ  : HỎNG {'status': False, 'refund_amount': False, 'carrier_fault': False}

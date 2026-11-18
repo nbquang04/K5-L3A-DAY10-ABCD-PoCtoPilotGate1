@@ -1,0 +1,67 @@
+{
+  "counts": {
+    "CRLF_only": 22,
+    "missing": 28,
+    "different": 1
+  },
+  "files": {
+    "CRLF_only": [
+      "data/tickets.jsonl",
+      "data/world.json",
+      "incidents/S1/card.json",
+      "incidents/S1/card.md",
+      "incidents/S1/tickets.jsonl",
+      "incidents/S1/world_patch.json",
+      "lab10/__init__.py",
+      "lab10/_gradectx.py",
+      "lab10/_noop_guards.py",
+      "lab10/agent.py",
+      "lab10/check_submission.py",
+      "lab10/checkpoint.py",
+      "lab10/criteria.py",
+      "lab10/eval.py",
+      "lab10/gate.py",
+      "lab10/grade.py",
+      "lab10/helpers.py",
+      "lab10/mock_llm.py",
+      "lab10/ops.py",
+      "lab10/tools.py",
+      "lab10/trace.py",
+      "lab10/world.py"
+    ],
+    "missing": [
+      "incidents/S2/card.json",
+      "incidents/S2/card.md",
+      "incidents/S2/tickets.jsonl",
+      "incidents/S2/world_patch.json",
+      "incidents/S3/card.json",
+      "incidents/S3/card.md",
+      "incidents/S3/tickets.jsonl",
+      "incidents/S3/world_patch.json",
+      "incidents/S4/card.json",
+      "incidents/S4/card.md",
+      "incidents/S4/tickets.jsonl",
+      "incidents/S4/world_patch.json",
+      "incidents/S5/card.json",
+      "incidents/S5/card.md",
+      "incidents/S5/tickets.jsonl",
+      "incidents/S5/world_patch.json",
+      "incidents/S6/card.json",
+      "incidents/S6/card.md",
+      "incidents/S6/tickets.jsonl",
+      "incidents/S6/world_patch.json",
+      "incidents/S7/card.json",
+      "incidents/S7/card.md",
+      "incidents/S7/tickets.jsonl",
+      "incidents/S7/world_patch.json",
+      "incidents/S8/card.json",
+      "incidents/S8/card.md",
+      "incidents/S8/tickets.jsonl",
+      "incidents/S8/world_patch.json"
+    ],
+    "different": [
+      "tests/test_public.py"
+    ]
+  },
+  "note": "Read-only diagnosis; no locked files or MANIFEST altered. Other cards are missing, not opened or fetched."
+}

@@ -7,11 +7,11 @@
     "NguyenBaQuang-2A202603555"
   ],
   "incident": "S1",
-  "decision_v1": "",
-  "decision_v2": "",
+  "decision_v1": "Cải tiến thêm",
+  "decision_v2": "Cải tiến thêm",
   "three_lines": {
-    "environment_assumption": "",
-    "reduce_or_prevent": "",
-    "measure_in_pilot": ""
+    "environment_assumption": "Thiết kế đang dựa vào tracking DB và chính sách có hiệu lực là đúng; dữ liệu đã giao nhưng thiếu ngày hoặc nguyên nhân như S1-20/S1-21 cho thấy giả định này có thể sai, nên dữ liệu thiếu phải chuyển người trước khi ghi tiền.",
+    "reduce_or_prevent": "Guard ngăn nhánh ghi sai khi thiếu tracking hoặc chạm trần 2 lỗi hãng/ngày bằng kiểm tra trước ghi, nhưng chỉ giảm rủi ro toàn hệ thống vì DB vẫn có thể sai; HN đạt 0 hoàn sai và 0 lỗi oan trong mock không bảo đảm pilot thật an toàn.",
+    "measure_in_pilot": "Trước Gate 2 phải đo lại trên dữ liệu thật: lỗi hãng đã đối soát, PII trong thông báo, p95 thời gian chờ giờ cao điểm so SLA 60 phút, chi phí toàn phần so 10000đ/ticket và ROI theo kho; kiểm thêm nhu cầu reviewer khi escalation bộ nền HN là 37,5%."
   }
 }
