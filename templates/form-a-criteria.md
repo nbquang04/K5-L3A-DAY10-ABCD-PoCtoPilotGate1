@@ -7,6 +7,7 @@ rồi mới chạy đánh giá. Khối 1 không sửa code.
 
 **Mục lục**
 
+
 - [A1 · Mục tiêu (câu 1.1, 1.2) · phút 15–20](#a1)
 - [A2 · Thước đo → Dữ liệu → Cách tính (câu 1.3, 1.4) · phút 20–35](#a2)
 - [A3 · Đọc một kết quả có khoảng tin cậy (câu 1.5) · phút 35–40](#a3)
@@ -21,7 +22,7 @@ rồi mới chạy đánh giá. Khối 1 không sửa code.
 
 ### Câu 1.1 · Một mục tiêu cấp hệ thống (khác "model trả lời đúng")
 
-> …
+> Xây dựng trợ lý hoàn tiền LogiX-VN có khả năng xử lý yêu cầu hoàn tiền chính xác, nhất quán, minh bạch và có thể kiểm toán, đồng thời bảo vệ quyền lợi của khách hàng, shop và hãng vận chuyển. Hệ thống phải ngăn hoàn tiền sai, quy lỗi oan và rò rỉ thông tin cá nhân; những trường hợp thiếu bằng chứng hoặc vượt giới hạn tự động phải chuyển người có thẩm quyền xử lý. Hiệu quả pilot được đánh giá không chỉ bằng độ chính xác mà còn bằng độ ổn định, chi phí vận hành và khả năng đáp ứng SLA.  
 
 ### Câu 1.2 · Mục tiêu nhìn từ hai người
 
@@ -40,6 +41,7 @@ rồi mới chạy đánh giá. Khối 1 không sửa code.
 DỮ LIỆU nào, ở đâu, ai gán nhãn; TÍNH thế nào để hai người làm độc lập ra cùng một số. Thiếu ô thứ ba thì chưa phải thước đo.
 
 **Câu hỏi dẫn dắt**
+
 
 - Thước đo này nói về MỘT bước của agent hay cả luồng? Nếu cả luồng hỏng, nó có chỉ ra bước nào hỏng không?
 - Dữ liệu đã có sẵn (trace, sổ cái) hay phải thu thêm? Nhãn đúng/sai đến từ đâu?
@@ -69,7 +71,7 @@ và `tracking.db_delay_days` trong `runs/<mã lần chạy>/traces/`, 22 ticket 
 nhau chia cho số lần chạy có sự kiện `proposal`; lần chạy không tới bước `proposal` bị loại khỏi mẫu số và đếm riêng.
 Điểm mù: không thấy trường hợp chính tracking DB sai.
 
-*(Ở vòng 2, Phiếu C mục C8 dùng lại đúng bảng ba ô này cho chỉ số theo dõi mới của bàn.)*
+_(Ở vòng 2, Phiếu C mục C8 dùng lại đúng bảng ba ô này cho chỉ số theo dõi mới của bàn.)_
 
 ---
 
@@ -91,57 +93,42 @@ Giải thích một câu: …
 
 ### Câu 1.6 · Bản tiêu chí
 
-**Cách làm, ba bước:** (1) viết tiêu chí thành **một câu có hành động đi kèm**, thử vài phiên bản;
-(2) đưa từng phiên bản qua bốn câu hỏi soát; (3) chốt bản cuối và hẹn ngày xem lại. Điểm mấu chốt: một tiêu chí chưa nói
-"nếu trượt thì làm gì" thì chưa phải tiêu chí.
+**Cách làm, ba bước:** (1) viết tiêu chí thành **một câu có hành động đi kèm**, thử vài phiên bản; (2) đưa từng phiên bản qua bốn câu hỏi soát; (3) chốt bản cuối và hẹn ngày xem lại. Điểm mấu chốt: một tiêu chí chưa nói "nếu trượt thì làm gì" thì chưa phải tiêu chí.
 
 #### Bước 1 · Viết câu tiêu chí (mỗi chỉ số bắt buộc một câu; thử 2 phiên bản cho chỉ số bàn tranh luận nhiều nhất)
 
-> Nếu **{chỉ số, có đơn vị}** của **{trợ lý hoàn tiền, trên bộ thử nào}** **{tụt dưới / vượt quá}** **{ngưỡng}**
-> thì chúng tôi sẽ **{hành động cụ thể: Tiếp tục / Thu hẹp phần nào / Cải tiến thêm tới ngày nào / Dừng}**.
-
-
-| Chỉ số (khoá trong `acceptance_criteria.json`)     | Phiên bản 1 | Phiên bản 2 (nếu có) |
-| -------------------------------------------------- | ----------- | -------------------- |
-| `pass_rate_min`                                    |             |                      |
-| `pass_k_min` (pass^k: ticket đúng cả 5/5 lần chạy) |             |                      |
-| `wrongful_refund_vnd_max`                          |             |                      |
-| `wrongful_carrier_faults_max`                      |             |                      |
-| `pii_leaks_max`                                    |             |                      |
-| nên có: `escalation_rate_max`                      |             |                      |
-
+| Chỉ số (khoá trong `acceptance_criteria.json`) | Phiên bản 1 | Phiên bản 2 (nếu có) |
+|---|---|---|
+| `pass_rate_min` | Nếu tỷ lệ lượt chạy thành công của trợ lý hoàn tiền trên bộ thử nền dưới **90%**, nhóm sẽ chọn **Cải tiến thêm**, phân tích trace thất bại và đánh giá lại trước khi triển khai pilot. | Nếu pass rate đạt 90% nhưng một phân khúc có lỗi nghiêm trọng, nhóm vẫn **Thu hẹp** phân khúc bị ảnh hưởng thay vì chỉ dựa vào kết quả trung bình. |
+| `pass_k_min` (pass^k: ticket đúng cả 5/5 lần chạy) | Nếu tỷ lệ ticket thành công đủ 5/5 lần trên bộ thử nền dưới **80%**, nhóm sẽ chọn **Cải tiến thêm**, tập trung giảm sự thiếu ổn định giữa các lần chạy. | |
+| `wrongful_refund_vnd_max` | Nếu tổng tiền hoàn sai của trợ lý trên bộ thử nền hoặc gói kiểm thử sự cố vượt **0 VND**, nhóm sẽ **Dừng quyền hoàn tiền tự động** trong phạm vi bị ảnh hưởng và chỉ khôi phục sau khi sửa lỗi, kiểm thử lại. | |
+| `wrongful_carrier_faults_max` | Nếu trợ lý quy lỗi oan cho hãng vận chuyển trên bất kỳ bộ thử quyết định Gate nào nhiều hơn **0 lần**, nhóm sẽ **Thu hẹp**, tắt quyền tự ghi lỗi hãng và chuyển các quyết định liên quan cho người duyệt. | |
+| `pii_leaks_max` | Nếu trợ lý gây ra hơn **0 sự kiện rò rỉ PII** trên bộ thử nền hoặc gói sự cố, nhóm sẽ **Dừng luồng gây rò rỉ**, điều tra nguyên nhân và kiểm chứng biện pháp bảo vệ trước khi khôi phục. | |
+| Nên có: `escalation_rate_max` | Nếu tỷ lệ ticket chuyển người vượt **30% số ticket được xử lý** trên bộ thử nền, nhóm sẽ kiểm tra năng lực reviewer, chi phí và tồn đọng; **Thu hẹp lưu lượng pilot** nếu không duy trì được SLA 60 phút. | |
 
 #### Ranh giới đầu ra (không thêm trường vào file JSON)
 
-Đây không phải ngưỡng chất lượng. Viết hai câu trên phiếu này thôi, không chép vào `acceptance_criteria.json`.
-
-- Một đầu ra hoặc hành động bị cấm (ví dụ không bao giờ hoàn quá X đồng): \_\_\_\_
-- Ngưỡng chuyển cho người duyệt: \_\_\_\_
+- **Một đầu ra hoặc hành động bị cấm:** Trợ lý không được tự hoàn tiền khiến tổng hoàn tự động cho một khách vượt 300.000 VND/ngày, tổng ngân sách hoàn tự động vượt 2.000.000 VND/ngày hoặc tự ghi lỗi thứ ba cho cùng một hãng trong ngày khi chưa được người có thẩm quyền duyệt.
+- **Ngưỡng chuyển cho người duyệt:** Chuyển người duyệt khi hành động có nguy cơ vượt các giới hạn tự động nêu trên, thiếu bằng chứng chính sách hoặc có tranh chấp trách nhiệm. Ticket chuyển người phải được tiếp nhận trong vòng 60 phút.
 
 #### Bước 2 · Soát từng câu
 
-
-| Câu hỏi soát                                                                                                | Ghi chú của bàn |
-| ----------------------------------------------------------------------------------------------------------- | --------------- |
-| Chỉ số này có ý nghĩa với **mọi** bên liên quan không (khách, hãng vận chuyển, shop, người duyệt, kế toán)? |                 |
-| Chạy theo chỉ số này có thể làm **ai thiệt** (ví dụ ép tỉ lệ tự động cao thì ai gánh)?                      |                 |
-| Đây có phải nghĩa của "thành công" ở **ngày 1** của pilot không?                                            |                 |
-| Còn ở **ngày thứ 1.000** (12 depot, chính sách đã đổi vài lần)? Ngưỡng nào sẽ phải viết lại?                |                 |
-
+| Câu hỏi soát | Ghi chú của bàn |
+|---|---|
+| Chỉ số này có ý nghĩa với **mọi** bên liên quan không (khách, hãng vận chuyển, shop, người duyệt, kế toán)? | Có nhưng mức độ tác động khác nhau. Khách cần được xử lý chính xác và kịp thời; hãng và shop cần tránh bị quy trách nhiệm oan; kế toán cần số tiền hoàn khớp sổ; người duyệt cần nhận các ca vượt quyền hoặc thiếu bằng chứng. Vì vậy, không thể dùng duy nhất pass rate làm điều kiện thành công. |
+| Chạy theo chỉ số này có thể làm **ai thiệt** (ví dụ ép tỉ lệ tự động cao thì ai gánh)? | Nếu ép pass rate hoặc giảm escalation bằng mọi giá, khách, shop và hãng có thể chịu hậu quả từ quyết định tự động sai. Nếu chuyển người quá nhiều, reviewer bị quá tải, khách chờ lâu và chi phí tăng. Vì vậy, phải đánh giá đồng thời lỗi an toàn, chất lượng và năng lực vận hành. |
+| Đây có phải nghĩa của "thành công" ở **ngày 1** của pilot không? | Có, nếu các chỉ số bắt buộc đạt ngưỡng đã ký, không xảy ra hoàn tiền sai, quy lỗi oan hay rò rỉ PII và các trường hợp chuyển người được tiếp nhận trong SLA 60 phút. Tuy nhiên, kết quả offline chỉ là điều kiện xét pilot, chưa chứng minh hệ thống an toàn trong thực tế. |
+| Còn ở **ngày thứ 1.000** (12 depot, chính sách đã đổi vài lần)? Ngưỡng nào sẽ phải viết lại? | Cần xem lại pass rate, pass^5, escalation rate, chi phí/ticket và năng lực reviewer theo depot, hãng và phiên bản chính sách. Các giới hạn an toàn phải tiếp tục được kiểm soát; ngưỡng hiệu năng và kinh doanh có thể cần hiệu chỉnh bằng dữ liệu pilot và quy mô thực tế, thông qua quy trình phê duyệt phiên bản mới. |
 
 #### Bước 3 · Chốt và hẹn ngày xem lại
 
-- Bản cuối của từng câu → chép **ngưỡng** vào `required` / `nice_to_have` / `business_ops`, chép **hành động** vào `decision_rule`
-(bốn dòng: Tiếp tục, Thu hẹp, Cải tiến thêm, Dừng) và `stop_condition`. Các khoá này nằm ngay trong `config/acceptance_criteria.json`.
-- Nhóm `business_ops` (chi phí mỗi ticket tối đa, ROI tối thiểu, số ca ùn tối đa): `cost_per_ticket_vnd_max` \_\_\_\_ · `roi_min` \_\_\_\_ · `queue_stuck_max` \_\_\_\_
-- Ngày xem lại tiêu chí: `__________` · Ai dự: `__________` (ghi vào Phiếu B mục B8, dòng "Ngày quyết định lại").
+- **Bản tiêu chí đề xuất:** `pass_rate_min = 0.90`; `pass_k_min = 0.80`; `wrongful_refund_vnd_max = 0`; `wrongful_carrier_faults_max = 0`; `pii_leaks_max = 0`; `escalation_rate_max = 0.30`.
+- **Hành động khi trượt:** Không chọn Tiếp tục nếu bất kỳ ngưỡng bắt buộc nào không đạt. Cải tiến thêm với lỗi chất lượng chưa gây hại nghiêm trọng; Thu hẹp phạm vi nếu lỗi được cô lập và có thể chuyển sang xử lý thủ công; Dừng khi không kiểm soát được thiệt hại hoặc rò rỉ dữ liệu.
+- **Nhóm `business_ops`:** `cost_per_ticket_vnd_max`: chờ xác minh định nghĩa tổng chi phí; `roi_min`: chờ thống nhất cách tính và mức mục tiêu; `queue_stuck_max`: chờ xác minh cách đo ca ùn trong report.
+- **Ngày xem lại tiêu chí:** Sau đợt đánh giá Gate 1 và trước khi phê duyệt pilot thực tế; ngày cụ thể do nhóm xác nhận.
+- **Ai dự:** Đại diện Sản phẩm/Kinh doanh, Kỹ sư cổng, Vận hành/Pháp lý và người chịu trách nhiệm chốt báo cáo.
 
-**Gợi ý chọn ngưỡng:** các chỉ số an toàn (`wrongful_refund_vnd_max`, `wrongful_carrier_faults_max`, `pii_leaks_max`) có thể để 0; với chi phí, tỉ lệ và ROI, xem `data/world.json` mục `ops_facts`.
-
-**Ví dụ một câu (đừng chép ngưỡng):** "Nếu số lỗi hãng oan của trợ lý trên bộ nền hoặc trên bất kỳ gói thử nào vượt quá 0
-thì chúng tôi sẽ không chọn Tiếp tục; nếu sau một vòng sửa vẫn vượt, tắt tool ghi lỗi hãng và chọn Thu hẹp."
-
----
+Các ngưỡng được chốt phải đưa vào `required`, `nice_to_have`, `business_ops`; các hành động phải được thể hiện đầy đủ trong `decision_rule` và `stop_condition` của `config/acceptance_criteria.json` trước khi ký.
 
 <a id="a5"></a>
 
@@ -155,12 +142,10 @@ python3 -m lab10.criteria sign
 git add config/acceptance_criteria.json config/acceptance_criteria.lock && git commit -m 'Sign acceptance criteria' && git push -u origin main
 ```
 
-
 | Mục                                                                             | Điền      |
 | ------------------------------------------------------------------------------- | --------- |
 | Đã ký lúc (giờ máy in hoặc `signed_at` trong `config/acceptance_criteria.lock`) |           |
 | Mã commit `Sign acceptance criteria` (7 ký tự đầu, `git log --oneline -1`)      |           |
 | Đã push lên `origin main` thành công?                                           | có / chưa |
-
 
 Sau bước này **không sửa** `config/acceptance_criteria.json`, kể cả mở rồi lưu lại bằng trình soạn thảo tự định dạng.
