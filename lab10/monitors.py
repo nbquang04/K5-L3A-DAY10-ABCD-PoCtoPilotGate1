@@ -19,7 +19,17 @@ def escalation_rate(trials):
     return sum(t["status"] == "escalated" for t in trials) / max(1, len(trials))
 
 
+def carrier_fault_rate(trials):
+    """Share of trials that create an outbound carrier-fault record.
+
+    This uses only operational records (no correctness labels) and surfaces
+    potentially harmful third-party writes for review.
+    """
+    return sum(bool(t.get("faults")) for t in trials) / max(1, len(trials))
+
+
 MONITORS = {
     "escalation_rate": escalation_rate,     # có sẵn; KHÔNG tính là metric mới của đội
+    "carrier_fault_rate": carrier_fault_rate,
 }
 STARTER_MONITORS = ("escalation_rate",)
