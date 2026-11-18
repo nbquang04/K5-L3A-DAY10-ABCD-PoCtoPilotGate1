@@ -174,15 +174,19 @@ Bằng chứng cập nhật: grade `R-S1-grade-20261118-174856-4ee9d5`, full-sco
 
 ### Phần việc phụ trách
 
-Đánh giá, monitor và bằng chứng. Bản tóm tắt dưới đây do trợ lý soạn từ file/commit, Duẩn cần tự xác nhận trước nộp.
+Đánh giá, monitor và tổng hợp bằng chứng cho Gate 1.
 
 ### Đóng góp có bằng chứng
 
-Commit 558a1c2 ghi hoàn thành B0/B1 và thêm snapshot; journal giữ baseline, after và prepared. Monitor carrier_fault_rate có trong repo. Kết quả grade cuối được trợ lý chạy bổ sung theo yêu cầu Quảng, không gán là Duẩn đã chạy.
+Đã hoàn thành B0/B1 từ các report baseline, thử guard vòng 1 và prepared; điền mã lần chạy, khoảng tin cậy, ngưỡng chưa đạt, số liệu kinh doanh/vận hành, phân khúc có lỗi và khuyến nghị kết hợp tự chặn với chuyển người duyệt. Đã bổ sung monitor `carrier_fault_rate`, tính tỷ lệ trial có bản ghi lỗi hãng từ dữ liệu vận hành không nhãn.
 
-### Exit ticket — bổ sung có hỗ trợ AI, chờ Duẩn xác nhận
+### Exit ticket
 
-Bài học từ bằng chứng: carrier_fault_rate đo tần suất ghi lỗi, không đo tỷ lệ ghi oan khi production không có nhãn. Cần đọc cùng độ phủ và guard events để tránh kết luận an toàn hơn chỉ vì chuyển nhiều ca cho người. Điều chưa chắc là tracking thật có đúng và công suất reviewer giờ cao điểm có giữ SLA hay không. Trợ lý tổng hợp từ code/report theo yêu cầu Quảng; Duẩn cần xác nhận đóng góp và việc dùng AI thực tế của mình. Đây chưa phải lời khai cá nhân đã ký.
+Bài học rút ra là `carrier_fault_rate` đo tần suất ghi lỗi hãng, không cho biết lỗi đó có oan hay không. Vì vậy cần đọc chỉ số cùng guard events, độ phủ và kết quả kiểm tra để không nhầm việc chuyển nhiều ca cho người với việc đã loại bỏ rủi ro. Pilot thật vẫn cần xác nhận độ đúng của tracking và khả năng người duyệt giữ SLA vào giờ cao điểm.
+
+### Kết quả rà soát phần việc
+
+Phiếu C đã có C0, C1, C5, C6, C8 và C9 với mã report, số liệu prepared, các nhánh fault tree, công thức monitor và điểm mù. Cổng vòng 1 đã có snapshot. Grade S1 cuối là `FAIL`: còn lỗi visible và integrity chưa đạt. Report/journal/trace được lệnh lab sinh tự động, không chỉnh tay. Bản gom cuối đã đạt đủ thành phần theo lần kiểm tra gần nhất.
 
 ## BuiNguyenDung-2A202603587
 
