@@ -169,6 +169,8 @@ Tool chọn phân tích: `notify_carrier`.
 
 **Chuẩn bị trước baseline — Nguyễn Bá Quảng.** Phân tích dưới đây dựa trên đọc tĩnh `lab10/agent.py`, `lab10/tools.py` và `data/world.json`; chưa phải bằng chứng đã chạy trace hoặc cổng đã hoạt động. Sau baseline cần đối chiếu trace và cả nhóm duyệt đề xuất.
 
+**Đầu vào kế thừa Lab 9:** PRD v1.1 §4 nêu FM-03 (model đè dữ kiện DB), FM-07 (vượt quyền), FM-08 (reply không khớp ledger); eval card nêu `SecretLeak`, `ApprovalBypass` và trace `C-002@11`. Các lỗi này gợi ý kiểm nguồn dữ liệu, quyền ghi và nội dung gửi ra ngoài. HAZOP dưới đây áp dụng vào tool `notify_carrier` của Lab 10; không khẳng định trace Lab 9 là bằng chứng tool này đã gây lỗi. Riêng bảo vệ dữ liệu người nhận/đơn nhiều kiện là mở rộng từ cấu trúc Lab 10.
+
 | Tham số / dòng dữ liệu | Guideword | Lệch cụ thể (viết bằng dữ kiện của lab) | Hậu quả, cho ai | Hiện có gì ngăn? | Gate đề xuất + tầng |
 |---|---|---|---|---|---|
 | `carrier_id`, `payload.parcel_id` | WRONG | Thông báo đi nhầm hãng khi đơn nhiều kiện: O-1013 có P1 thuộc GHSH, P2 thuộc LGX; một hãng có thể nhận thông tin/lỗi của kiện hãng khác. | Hãng và tài xế phải giải trình nhầm; khách nhận xử lý sai. | `_gate` gọi guard, nhưng guard do Bảo phải bổ sung; lọc PII không kiểm đúng hãng. | Đề xuất Bảo đối chiếu hãng với đúng kiện trong DB trước gửi; không rõ kiện thì chuyển người trước chuỗi ghi. Tầng chặn. |
@@ -220,6 +222,8 @@ Trạng thái: **Xong** (có bằng chứng) · **Chưa** · **Không áp dụng
 | 7 | Vận hành | B7.5–B7.6, config operations, monitors | PIC, kênh báo, hạn dừng và runbook khớp config | Chưa | B7.5 có dự thảo; config chưa áp dụng, kênh chưa xác nhận | Nguyễn Bá Quảng |
 | 8 | Con người, pháp lý | A1/A2, B4, config legal; C3 nếu đúng thẻ | Giảm PII gửi hãng, nguyên nhân lỗi có căn cứ, quyền người duyệt | Chưa | Đã thiết kế mục tiêu/telemetry; legal chưa áp dụng, chưa có thẻ | Nguyễn Bá Quảng |
 | 9 | Quyết định | A4, hash tiêu chí, B8, C12 | Ký trước đo, v1/v2 khớp bằng chứng | Chưa | Chưa ký tiêu chí và chưa có quyết định | Bùi Nguyên Dũng |
+
+Đối chiếu checklist với Lab 9: PRD §4–5 cung cấp yêu cầu kiểm tiền, quyền và release gate cho nhóm 1/3/4/9; PRD §6 và giới hạn eval card cho thấy vẫn thiếu bằng chứng production. Vì vậy các dòng còn Chưa không được đổi thành Xong chỉ vì Lab 9 đã có metric đạt. Chi phí, nhân sự, hàng chờ và pháp lý bên thứ ba phải kiểm riêng bằng dữ liệu/report Lab 10.
 
 Ô "Chưa" có rủi ro cao → chuyển thành một dòng Risk register (Phiếu C mục C10).
 
@@ -319,6 +323,8 @@ Mỗi con số kèm một câu lý do, lấy từ `data/world.json` → `ops_lim
 ### B7.5 · Câu 2.10 · Cổng con người, vận hành, pháp lý + Runbook phần 1–3
 
 **Dự thảo tách biệt trước baseline — chưa áp dụng config, chưa xác nhận đủ vận hành.** Theo thứ tự đề, chỉ nhập cấu hình sau khi ký tiêu chí và đo baseline. Đề xuất từ dữ liệu mock: PIC `NV-TUNG`, người duyệt `NV-HANH`, 1 người/ca, 6 ca/giờ, hạn chờ 60 phút; kênh nội bộ đề xuất `logix-pilot-alerts` (chưa xác nhận có thật); chặn gửi các khóa `recipient_contact`, `customer_note`, `name`, `phone`, `street`; bật yêu cầu nguyên nhân ghi lỗi hãng theo chính sách hiệu lực. Chưa chọn `decision_note` và tỉ lệ kiểm mẫu: cần cân bằng lòng tin, chi phí và hàng chờ với cả nhóm. Chưa nhập phần `business` của Dũng.
+
+Kế thừa PRD Lab 9 §5: khi gate chặn, người phụ trách đọc report/trace, sửa nguyên nhân rồi đánh giá lại; không sửa tay report hay nới ngưỡng để qua. Eval owner Lab 9 là vai đề xuất trong bài cũ, không tự động trở thành PIC vận hành Lab 10. Runbook này dùng Tùng/Hạnh/Oanh từ dữ liệu Lab 10; mốc chuẩn bị, giới hạn hàng chờ và ngân sách là yêu cầu mới cần kiểm chứng. PRD §2, §6 và trạng thái phê duyệt chưa cho phép chuyển tiền thật: hoàn thành hồ sơ lab không đồng nghĩa đã được tổ chức cho phép chạy pilot.
 
 Phân quyền dự thảo: Tùng giám sát, quyết dừng và giữ công tắc; Hạnh duyệt khoản vượt hạn mức, phân ca và tiếp nhận ticket chuyển người; Oanh tiếp nhận đối soát tiền/lỗi hãng và đầu mối khiếu nại hãng/shop. Với khiếu nại người nhận, Hạnh tiếp nhận và phối hợp Oanh. Đây là phân công đề xuất cho nhân vật mock, không phải xác nhận đã bố trí nhân sự thật.
 

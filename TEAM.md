@@ -124,6 +124,8 @@ Vận hành và pháp lý: Phiếu A câu 1.2, 1.4; Phiếu B B4–B5, B7.5–B7
 
 `templates/form-a-criteria.md`: A1 câu 1.2 và A2 cột Telemetry. `templates/form-b-evaluation-gates.md`: B4, B5 và dự thảo ở B7.5. `submission/submission.json`: team và bốn members. Nguồn: `data/world.json` (staff, ops_limits, ops_facts, policies), đọc tĩnh `lab10/agent.py`, `lab10/tools.py`. Chưa có mã chạy hoặc commit chứng minh kết quả đánh giá.
 
+Đã đối chiếu thêm `docs/eval_card.md` và `docs/PRD_v1.1.md` từ repo Lab 9 `K5-L3A-DAY09-NguyenBaQuang-2A202603555-EvaluationandFailureAnalysis`: kế thừa nguyên tắc giữ dữ kiện DB, kiểm quyền/ledger và xử lý khi gate chặn; mở rộng sang PII người nhận và vận hành Lab 10. Đã ghi nguồn và giới hạn trong Phiếu A/B; không dùng report Lab 9 thay baseline Lab 10, không sao chép ngưỡng cũ. Việc đối chiếu được trợ lý AI hỗ trợ, cần tự đọc lại trước demo.
+
 ### Exit ticket
 
 Điều rút ra khi chuẩn bị: lọc tên trường cấp ngoài không đủ nếu PII nằm trong đối tượng lồng hoặc ghi chú tự do; monitor sau gửi chỉ phát hiện, không thu hồi được dữ liệu. Điều chưa chắc: một người duyệt 6 ca/giờ có đủ ở giờ dồn ca hay không; cần report và kiểm tra chi phí/ROI sau khi tiêu chí đã ký. Cần tự rà lại và bổ sung sau demo.
