@@ -124,9 +124,9 @@ Giải thích một câu: Chưa đủ căn cứ kết luận Y tốt hơn X vì 
 
 - **Bản tiêu chí đề xuất:** `pass_rate_min = 0.90`; `pass_k_min = 0.80`; `wrongful_refund_vnd_max = 0`; `wrongful_carrier_faults_max = 0`; `pii_leaks_max = 0`; `escalation_rate_max = 0.30`.
 - **Hành động khi trượt:** Không chọn Tiếp tục nếu bất kỳ ngưỡng bắt buộc nào không đạt. Cải tiến thêm với lỗi chất lượng chưa gây hại nghiêm trọng; Thu hẹp phạm vi nếu lỗi được cô lập và có thể chuyển sang xử lý thủ công; Dừng khi không kiểm soát được thiệt hại hoặc rò rỉ dữ liệu.
-- **Nhóm `business_ops`:** `cost_per_ticket_vnd_max`: chờ xác minh định nghĩa tổng chi phí; `roi_min`: chờ thống nhất cách tính và mức mục tiêu; `queue_stuck_max`: chờ xác minh cách đo ca ùn trong report.
-- **Ngày xem lại tiêu chí:** Sau đợt đánh giá Gate 1 và trước khi phê duyệt pilot thực tế; ngày cụ thể do nhóm xác nhận.
-- **Ai dự:** Đại diện Sản phẩm/Kinh doanh, Kỹ sư cổng, Vận hành/Pháp lý và người chịu trách nhiệm chốt báo cáo.
+- **Nhóm `business_ops`:** `cost_per_ticket_vnd_max = 10000` (tổng chi phí trung bình không vượt mức làm tay 10.000 VND/ticket); `roi_min = 0.0` (ROI tối thiểu 0%, mục tiêu hòa vốn); `queue_stuck_max = 0` (không chấp nhận ca bị kẹt quá SLA tiếp nhận 60 phút).
+- **Ngày xem lại tiêu chí:** `25/11/2026`, sau đợt đánh giá Gate 1 và trước khi phê duyệt pilot thực tế, đồng thời rà soát việc chuyển chính sách sang `REFUND-v4` từ ngày 01/12/2026.
+- **Ai dự:** Đại diện Sản phẩm/Kinh doanh, Kỹ sư cổng, Đánh giá/Monitor, Vận hành/Pháp lý và người chịu trách nhiệm chốt báo cáo.
 
 Các ngưỡng được chốt phải đưa vào `required`, `nice_to_have`, `business_ops`; các hành động phải được thể hiện đầy đủ trong `decision_rule` và `stop_condition` của `config/acceptance_criteria.json` trước khi ký.
 
