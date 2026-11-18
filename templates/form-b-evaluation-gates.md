@@ -304,10 +304,10 @@ Mỗi con số kèm một câu lý do, lấy từ `data/world.json` → `ops_lim
 
 | Khoá | Giá trị bàn đặt | Lý do (một câu, có số) |
 |---|---|---|
-| `business.daily_refund_cap_vnd` | 2000000 |Theo ops_limits, tổng hoàn tiền tự động mỗi ngày không được vượt 2.000.000 VND |
+| `business.daily_refund_cap_vnd` | 2000000 | Trần ngân sách hoàn tự động 2.000.000 VND/ngày theo world.json, mục ops_limits. |
 | `business.cost_budget_per_ticket_vnd` | 1500 | Trần tiền LLM từ ops_limits.max_llm_cost_per_ticket_vnd; khác tổng chi phí 10.000đ/ticket đã ký. |
-| `business.pilot_scope` (all / warehouse / percent) | warehouse, warehouses=[HN] |Giới hạn pilot ở 1 kho nhằm kiểm soát rủi ro khi mặc định chỉ có 1 người duyệt với công suất 6 ca/giờ. |
-| `business.roi_min` |0.0 |Theo ops_facts, xử lý thủ công tốn 10.000 VND/ticket; nhóm đề xuất ROI tối thiểu 0% để không kém phương án thủ công về hiệu quả chi phí. |
+| `business.pilot_scope` (all / warehouse / percent) | warehouse, warehouses=[HN] | Pilot giới hạn kho HN, không phải toàn bộ hệ thống; 1 người duyệt có công suất 6 ca/giờ, cần đo tải trước mở rộng. |
+| `business.roi_min` | 0.0 | Ngưỡng ROI tối thiểu 0% theo tiêu chí đã ký; phương án triển khai và quyết định thực tế cần nhóm xác nhận. |
 
 ### B7.5 · Câu 2.10 · Cổng con người, vận hành, pháp lý + Runbook phần 1–3
 

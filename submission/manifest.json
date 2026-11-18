@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-18T18:42:52",
+ "collected_at": "2026-11-18T19:10:23",
  "incident": "S1",
  "run_ids": {
   "base": "R-S1-before-20261118-174857-4ee9d5",
@@ -21,7 +21,7 @@
   "config/round1.lock": "742a4c9ec9ffce072b9c1395344f720214d048ce9890f0ea4d9ca5ec81261ffd",
   "config/switches.json": "9fcdb809437346392c6ded442f4f562c357ef89a7688a454505f94bcd969866b",
   "docs/form-a-criteria.md": "2baddd82425f97e032460a70ffac2557b32a690aa5d0b3e8c0c3baded1141d94",
-  "docs/form-b-evaluation-gates.md": "f7e511c043dbc0ee52b52d1a9a216bf18df60987dba6e755c9fd3fbc064c4386",
+  "docs/form-b-evaluation-gates.md": "66de7c2698ff4b5c24d0053808d72fc28e3171c805db0448ee9207adefb2762c",
   "docs/form-c-incident.md": "08b968e5af3fb879a46bda6e15fcd769d49f5943ab524a810ef2502788f84d76",
   "evidence/adhoc-1.txt": "78092d2985747f0afd9e7917f90e57712eb8e193babad88c9ea6fca10446a3b3",
   "evidence/adhoc-2.txt": "0b4085bf1db1e699e34502b02775b524aaa6151ea4b4a157c2ca00dc7126d339",
